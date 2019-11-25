@@ -12,14 +12,16 @@ library lpm;
 use lpm.lpm_components.all;
 
 entity exp7_alu is
-port (a, b: in std_logic_vector(7 downto 0);
-      op: in std_logic_vector(0 downto 0);   
-      result: out std_logic_vector(7 downto 0));
+	port (
+		a, b: in std_logic_vector(7 downto 0);
+		op: in std_logic_vector(0 downto 0);   
+		result: out std_logic_vector(7 downto 0)
+	);
 end exp7_alu;
 
 architecture structural of exp7_alu is
-signal add_result, xor_result: std_logic_vector(7 downto 0);
-signal mux_data: std_logic_2D(1 downto 0, 7 downto 0);
+	signal add_result, xor_result: std_logic_vector(7 downto 0);
+	signal mux_data: std_logic_2D(1 downto 0, 7 downto 0);
 begin
 
 	ALU_ADDER: lpm_add_sub

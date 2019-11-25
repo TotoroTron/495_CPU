@@ -15,7 +15,6 @@ entity exp7_useq is
 	port(
 		opcode: in std_logic_vector(3 downto 0);
 		uop: out std_logic_vector(1 to (uROM_width-9));
-		enable, clear: in std_logic;
 		clock: in std_logic
 	);
 end exp7_useq;
@@ -40,11 +39,11 @@ begin
             port map (result=>uPC_mux_out, data=>uPC_mux_data, sel=>uPC_mux_sel);
   uPC: lpm_ff
             generic map (lpm_width=>8)
-            port map (clock=>clock, data=>uPC_mux_out, q=>uROM_address, 
-                      sclr=>clear, enable=>enable);
+            port map (clock=>clock, data=>uPC_mux_out, q=>uROM_address);
   uROM: lpm_rom
             generic map (lpm_widthad=>8, lpm_width=>uROM_width, lpm_file=>uROM_file)
             port map (address=>uROM_address, q=>uROM_out, inclock=>clock, outclock=>clock);
 
   uop <= uROM_out(uROM_width-1 downto 9);
+  
 end structural;
