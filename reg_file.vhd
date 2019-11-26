@@ -10,7 +10,8 @@ entity reg_file is
 		uOps : in std_logic_vector(29 downto 9); --from useq
 		M_q : in std_logic_vector(7 downto 0); --from ram
 		A_q : out std_logic_vector(7 downto 0);
-		M_addr : out std_logic_vector(7 downto 0) --to ram
+		M_data : out std_logic_vector(7 downto 0);
+		M_addr : out std_logic_vector(7 downto 0); --to ram
 		M_write : out std_logic --to ram
 	);
 end entity;
@@ -30,6 +31,12 @@ architecture structural of reg_file is
 	signal MAR_mux_out : std_logic_vector(7 downto 0);
 	signal DR_mux_data : std_logic_2D(1 downto 0, 7 downto 0);
 	signal DR_mux_out : std_logic_vector(7 downto 0);
+	signal ALU_out : std_logic_vector(7 downto 0);
+	signal A_mux_data : std_logic_2D(3 downto 0, 7 downto 0);
+	signal A_mux_out : std_logic_vector(7 downto 0);
+	signal Z_mux_data : std_logic_vector(1 downto 0);
+	signal Z_mux_out : std_logic;
+	signal V, VNOT : std_logic;
 begin
 	
 	GEN_MUX_SIGNALS: for i in 0 to 7 generate
@@ -37,7 +44,15 @@ begin
 		MAR_mux_data(1, i) <= PC_q(i);
 		MAR_mux_data(2, i) <= DR_q(i);
 		MAR_mux_data(3, i) <= '0';
+		DR_mux_data(0, i) <= M_q(i);
+		DR_mux_data(1, i) <= A_q(i);
+		A_mux_data(0, i) <= ALU_out(i);
+		A_mux_data(1, i) <= DR_q(i);
+		A_mux_data(2, i) <= R_q(i);
+		A_mux_data(3, i) <= '0';
 	end generate;
+	Z_mux_data(0) <= VNOT;
+	Z_mux_data(1) <= V;
 	
 	MAR_MUX: lpm_mux
 		generic map(lpm_width=>8, lpm_size=>4, lpm_widths=>2)
@@ -72,6 +87,27 @@ begin
 		port map(clock=>clk, sload=>RLOAD, data=>A_q, q=>R_q);
 	
 	ALU: entity work.exp7_alu
-		port map(a => A_q, )
+		port map(a=>A_q, b=>R_q, op=>ALUSEL, result=>ALU_out);
+	
+	A_MUX: lpm_mux
+		generic map(lpm_width=>8, lpm_size=>4, lpm_widths=>2);
+		port map(data=>A_mux_data, sel=>ASEL, result=>A_mux_out);
+	
+	A_REG: lpm_ff
+		generic map(lpm_width=>8)
+		port map(clock=>clk, sload=>ALOAD, data=>A_mux_out, q=>A_q);
+	
+	Z_ORGATE:
+		V <= A_q(7) OR A_q(6) OR A_q(5) OR A_q(4)
+		OR A_q(3)OR A_q(2) OR A_q(1) OR A_q(0);
+		VNOT <= NOT V;
+	
+	Z_MUX: mux
+		generic map(width=>2, widths=>1)
+		port map(data=>Z_mux_data, sel=>ZSEL, result=>Z_mux_out);
+	
+	Z_REG: lpm_ff
+		generic map(lpm_width=>8)
+		port map(clock=>clk, sload=>ZLOAD, data=>Z_mux_out, q=>Z_q);
 	
 end architecture;
