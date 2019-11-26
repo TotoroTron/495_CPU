@@ -36,13 +36,13 @@ begin
   
   uPC_mux: lpm_mux
             generic map (lpm_width=>8, lpm_size=>2, lpm_widths=>1)
-            port map (result=>uPC_mux_out, data=>uPC_mux_data, sel=>uPC_mux_sel);
+            port map (result => uPC_mux_out, data => uPC_mux_data, sel => uPC_mux_sel);
   uPC: lpm_ff
             generic map (lpm_width=>8)
             port map (clock=>clock, data=>uPC_mux_out, q=>uROM_address);
   uROM: lpm_rom
-            generic map (lpm_widthad=>8, lpm_width=>uROM_width, lpm_file=>uROM_file)
-            port map (address=>uROM_address, q=>uROM_out, inclock=>clock, outclock=>clock);
+            generic map (lpm_widthad => 8, lpm_width => uROM_width, lpm_file => uROM_file)
+            port map (address => uROM_address, q => uROM_out, inclock => clock, outclock => clock);
 
   uop <= uROM_out(uROM_width-1 downto 9);
   

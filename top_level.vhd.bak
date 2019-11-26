@@ -7,6 +7,9 @@ use work.all;
 entity top_level is
 	port(
 		clk_50mhz : in std_logic; --reference clock
+		hex0 : out std_logic_vector(6 downto 0);
+		hex1 : out std_logic_vector(6 downto 0);
+		hex2 : out std_logic_vector(6 downto 0);
 	);
 end entity;
 
@@ -18,16 +21,20 @@ architecture structural of top_level is
 	signal ram_addr : std_logic_vector(7 downto 0);
 begin
 
-	CLOCK_DIVIDER: entity work.clk_div
+	CLK_DIV: entity work.clk_div
 		generic map(n => 50000000) --1Hz
 		port map(clk_in => clk_50mhz, clk_out => sys_clk);
 	
-	LPM_RAM: lpm_ram_dq
+	RAM: lpm_ram_dq
 		generic map(LPM_WIDTHAD => 8, LPM_WIDTH => 16, LPM_FILE => ram.mif)
 		port map(data => ram_di, address => ram_addr, we => ram_we, q => ram_do);
 	
-	--REGISTER_FILE: entity work.reg_file
-		
-	--CONTROL_UNIT: entity work.exp7_useq
+	CPU: entity work.cpu
+		generic map()
+		port map();
+	
+	DISPLAY: entity work.display
+		generic map()
+		port map();
 		
 end architecture;

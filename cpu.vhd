@@ -11,7 +11,14 @@ entity cpu is
 end entity;
 
 architecture dataflow of cpu is
+
 begin
 	
-
+	uSEQUENCER : work.entity.exp7_useq
+		--generic map();
+		--port map();
+	REG_FILE : work.entity.reg_FILE
+		--generic map();
+		--port map();
+	
 end architecture;
