@@ -32,7 +32,7 @@ architecture structural of reg_file is
 	signal SPCNT, SPUD, PCCNT, PCCLR : std_logic;
 	--mux selectors
 	signal MARSEL, ASEL : std_logic_vector(1 downto 0);
-	signal DRSEL : std_logic;
+	signal DRSEL : std_logic_vector(0 downto 0);
 	signal ALUSEL : std_logic_vector(0 downto 0);
 	--intermediate signals
 	signal MAR_mux_data : std_logic_2D(3 downto 0, 7 downto 0);
@@ -55,7 +55,7 @@ begin
     PCLOAD <= uOPs(10) OR (uOps(9) AND Z_q(0));
     PCCLR <= uOPs(24);
     DRLOAD <= uOPs(23)OR uOPs(22);
-    DRSEL <=uOPs(22);
+    DRSEL(0) <=uOPs(22);
     ALOAD <= uOps(21) OR uOps(20) OR uOps(21) OR uOps(18);
     ASEL(0) <= uOps(21);
     ASEL(1) <= uOps(18);
