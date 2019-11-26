@@ -4,6 +4,7 @@ use ieee.numeric_std.all;
 
 entity display is
 	port(
+		clk : in std_logic;
 		A_q : in std_logic_vector(7 downto 0); --from reg_file
 		seven_seg_hund : out std_logic_vector(6 downto 0); --to top_level
 		seven_seg_tens : out std_logic_vector(6 downto 0); --to top_level
@@ -13,11 +14,11 @@ end entity;
 
 architecture behavioral of display is
 begin
-	ENCODE: process
+	ENCODE: process(clk)
 		Variable hund, tens, ones : integer range 0 to 9;
 		variable count : integer range 0 to 255;
 	begin
-	
+		if rising_edge(clk) then
 		Count := to_integer(unsigned(A_q));
 
 		Hund := ((count mod 1000) - (count mod 100))/100;
@@ -62,6 +63,6 @@ begin
 		When 8=>seven_seg_ones<="0000000";
 		When 9=>seven_seg_ones<="0010000";
 		end case;
-
+		end if;
 	end process;
 end architecture;

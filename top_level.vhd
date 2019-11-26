@@ -32,6 +32,7 @@ architecture structural of top_level is
 	end component;
 	component display is
 		port(
+			clk : in std_logic;
 			A_q : in std_logic_vector(7 downto 0); --from reg_file
 			seven_seg_hund : out std_logic_vector(6 downto 0); --to top_level
 			seven_seg_tens : out std_logic_vector(6 downto 0); --to top_level
@@ -64,7 +65,9 @@ begin
 		);
 	
 	DISP_BLOCK: display
-		port map(A_q => A_q,
+		port map(
+			clk => sys_clk,
+			A_q => A_q,
 			seven_seg_hund =>hex0,
 			seven_seg_tens =>hex1,
 			seven_seg_ones =>hex2
