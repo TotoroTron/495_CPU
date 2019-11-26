@@ -2,7 +2,6 @@ library ieee;
 use ieee.std_logic_1164.all;
 library lpm;
 use lpm.lpm_components.all;
-use work.all;
 
 entity reg_file is
 	port(
@@ -17,6 +16,13 @@ entity reg_file is
 end entity;
 
 architecture structural of reg_file is
+	component exp7_alu is
+		port(
+			a, b: in std_logic_vector(7 downto 0);
+			op: in std_logic_vector(0 downto 0);   
+			result: out std_logic_vector(7 downto 0)
+		);
+	end component;
 	--register outputs
 	signal SP_q, PC_q, opcode, DR_q, R_q, A_q, Z_q : std_logic_vector(7 downto 0);
 	--register loads
@@ -107,7 +113,7 @@ begin
 		generic map(lpm_width=>8)
 		port map(clock=>clk, sload=>RLOAD, data=>A_q, q=>R_q);
 	
-	ALU: entity work.exp7_alu
+	ALU: exp7_alu
 		port map(a=>A_q, b=>R_q, op=>ALUSEL, result=>ALU_out);
 	
 	A_MUX: lpm_mux
