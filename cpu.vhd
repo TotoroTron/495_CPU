@@ -16,22 +16,38 @@ entity cpu is
 end entity;
 
 architecture dataflow of cpu is
-
+	component exp7_useq is
+		port(
+			a, b: in std_logic_vector(7 downto 0);
+			op: in std_logic_vector(0 downto 0);   
+			result: out std_logic_vector(7 downto 0)
+		);
+	end component;
+	component reg_file is
+		port(
+			clk : in std_logic;
+			uOps : in std_logic_vector(29 downto 9); --from useq
+			M_q : in std_logic_vector(7 downto 0); --from ram
+			A_q : out std_logic_vector(7 downto 0);
+			M_data : out std_logic_vector(7 downto 0);
+			M_addr : out std_logic_vector(7 downto 0); --to ram
+			M_write : out std_logic --to ram
+		);
+	end component;
 	signal uOP : std_logic_vector(7 downto 0);
 	signal opcode : std_logic_vector(7 downto 0);
 begin
 	
-	uSEQUENCER : work.entity.exp7_useq
-		generic map(uROM_width => 30,	--exp7_useq.vhd
-			   uROM_file => "microde.mif") --
-		port map(clk => sys_clk, --clk_div.vhd
-			opcode => opcode,
-			 uop => uop);
-	REG_FILE : work.entity.reg_FILE
-		port map(clk => sys_clk, --clk_div.vhd
-			 uOps => uOp,
+	uSEQUENCER : exp7_useq
+		generic map(uROM_width => 30, uROM_file => "microde.mif")
+		port map(clk => sys_clk, opcode => opcode, uop => uop);
+	REG_FILE : reg_FILE
+		port map(
+			clk => sys_clk, --clk_div.vhd
+			uOps => uOp,
 			M_q => M_q,
-			 A_q => A_q,
+			A_q => A_q,
 			M_addr => M_addr,
-			M_write => M_addr);
+			M_write => M_addr
+		);
 end architecture;
