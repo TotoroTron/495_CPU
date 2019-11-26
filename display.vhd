@@ -13,6 +13,9 @@ end entity;
 
 architecture behavioral of display is
 begin
+FLOW_CHART: process	
+	Variable hund, tens, ones : integer range 0 to 9;
+	
 	Count := to_integer(unsigned(A_q));
 
 	Hund := ((count mod 1000) - (count mod 100))/100;
