@@ -1,0 +1,22 @@
+DEPTH = 256;
+WIDTH = 30;
+
+ADDRESS_RADIX = HEX;
+DATA_RADIX = BIN;
+
+CONTENT
+BEGIN
+
+-- 00: load F1 A = 12
+-- 02: load F2 A = 34
+-- 04: load F3 A = EE
+-- 06: store F2 A = EE
+-- 08: load F1 A = 12
+-- 0A: load F2 A = EE
+-- 0C: halt
+--
+00: 20 F1 20 F2 20 F3;
+06: 30 F2 20 F1 20 F2 F0;
+F1: 12 34 EE;
+
+END;

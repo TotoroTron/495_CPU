@@ -1,0 +1,23 @@
+DEPTH = 256;
+WIDTH = 30;
+
+ADDRESS_RADIX = HEX;
+DATA_RADIX = BIN;
+
+CONTENT
+BEGIN
+
+-- 00: load F1 A = 12
+-- 02: jump 10 A = 12
+-- 04: load F2
+-- 06: halt
+-- 10: load F3 A = 34
+-- 12: load F4 A = 56
+-- 13: halt
+--
+00: 20 F1 80 10 20 F2 F0;
+10: 20 F3 20 F4 F0;
+F1: 12 FF 34 56;
+--
+
+END;
