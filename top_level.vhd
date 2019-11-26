@@ -43,7 +43,7 @@ begin
 		port map(clk_in => clk_50mhz, clk_out => sys_clk);
 	
 	RAM: lpm_ram_dq
-		generic map(LPM_WIDTHAD => 8, LPM_WIDTH => 8, LPM_FILE => ram.mif)
+		generic map(LPM_WIDTHAD => 8, LPM_WIDTH => 8, LPM_FILE => "ram1.mif")
 		port map(data => ram_di, address => ram_addr, we => ram_we, q => ram_do);
 	
 	CPU: cpu
