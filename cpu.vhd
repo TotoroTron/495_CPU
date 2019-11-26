@@ -23,7 +23,8 @@ begin
 	uSEQUENCER : work.entity.exp7_useq
 		generic map(uROM_width => 30,	--exp7_useq.vhd
 			   uROM_file => "microde.mif") --
-		port map(opcode => opcode,
+		port map(clk => sys_clk, --clk_div.vhd
+			opcode => opcode,
 			 uop => uop);
 	REG_FILE : work.entity.reg_FILE
 		port map(clk => sys_clk, --clk_div.vhd
