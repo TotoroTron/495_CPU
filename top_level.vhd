@@ -31,7 +31,6 @@ begin
 		port map(data => ram_di, address => ram_addr, we => ram_we, q => ram_do);
 	
 	CPU: entity work.cpu
-		--generic map()
 		port map(clk => sys_clk, --clk_div.vhd
 			A_q => A_q,
 			M_q =>ram_do,
@@ -40,7 +39,9 @@ begin
 			M_data=>ram_di);
 	
 	DISPLAY: entity work.display
-		--generic map()
-		--port map();
+		port map(A_q => A_q,
+			seven_seg_hund =>hex0,
+			seven_seg_tens =>hex1,
+			seven_seg_ones =>hex2);
 		
 end architecture;
