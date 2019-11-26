@@ -10,12 +10,13 @@ entity reg_file is
 		uOps : in std_logic_vector(29 downto 9); --from useq
 		M_q : in std_logic_vector(7 downto 0); --from ram
 		M_addr : out std_logic_vector(7 downto 0) --to ram
+		M_write : out std_logic --to ram
 	);
 end entity;
 
 architecture structural of reg_file is
 	--register outputs
-	signal M_q, SP_q, PC_q, opcode, DR_q, R_q, A_q : std_logic_vector(7 downto 0);
+	signal SP_q, PC_q, opcode, DR_q, R_q, A_q : std_logic_vector(7 downto 0);
 	--register loads
 	signal MARLOAD, SPLOAD, PCLOAD, IRLOAD, DRLOAD, RLOAD, ALOAD, ZLOAD : std_logic;
 	--counting controls

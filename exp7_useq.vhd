@@ -9,7 +9,7 @@ use lpm.lpm_components.all;
 
 entity exp7_useq is
 	generic (
-		uROM_width: integer := 25;
+		uROM_width: integer := 30;
       uROM_file: string := "microde.mif"
 	);
 	port(
