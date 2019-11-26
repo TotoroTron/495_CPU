@@ -15,6 +15,7 @@ architecture behavioral of display is
 begin
 	ENCODE: process
 		Variable hund, tens, ones : integer range 0 to 9;
+		variable count : integer range 0 to 255;
 	begin
 	
 		Count := to_integer(unsigned(A_q));

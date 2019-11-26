@@ -16,6 +16,10 @@ end entity;
 
 architecture dataflow of cpu is
 	component exp7_useq is
+		generic (
+			uROM_width: integer := 30;
+			uROM_file: string := "microde.mif"
+		);
 		port(
 			opcode: in std_logic_vector(3 downto 0);
 			uop: out std_logic_vector(1 to (uROM_width-9));
@@ -39,15 +43,15 @@ begin
 	
 	uSEQUENCER : exp7_useq
 		generic map(uROM_width => 30, uROM_file => "microde.mif")
-		port map(clk => sys_clk, opcode => opcode, uop => uop);
+		port map(clock => clk, opcode => opcode, uop => uop);
 		
-	REG_FILE : reg_FILE
+	REGISTER_FILE : reg_file
 		port map(
-			clk => sys_clk, --clk_div.vhd
+			clk => clk, --clk_div.vhd
 			uOps => uOp,
 			M_q => M_q,
 			A_q => A_q,
 			M_addr => M_addr,
-			M_write => M_addr
+			M_write => M_write
 		);
 end architecture;

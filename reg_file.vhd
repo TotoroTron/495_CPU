@@ -135,6 +135,6 @@ begin
 		
 	Z_REG: lpm_ff
 		generic map(lpm_width=>1)
-		port map(clock=>clk, sload=>ZLOAD, data=>Z_mux_out(0), q=>Z_q(0));
+		port map(clock=>clk, sload=>ZLOAD, data=>Z_mux_out, q=>Z_q);
 	
 end architecture;
