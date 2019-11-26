@@ -8,7 +8,7 @@ entity reg_file is
 		clk : in std_logic;
 		uOps : in std_logic_vector(29 downto 9); --from useq
 		M_q : in std_logic_vector(7 downto 0); --from ram
-		A_q : out std_logic_vector(7 downto 0);
+		A_q : inout std_logic_vector(7 downto 0);
 		M_data : out std_logic_vector(7 downto 0);
 		M_addr : out std_logic_vector(7 downto 0); --to ram
 		M_write : out std_logic --to ram
@@ -24,14 +24,16 @@ architecture structural of reg_file is
 		);
 	end component;
 	--register outputs
-	signal SP_q, PC_q, opcode, DR_q, R_q, A_q, Z_q : std_logic_vector(7 downto 0);
+	signal SP_q, PC_q, opcode, DR_q, R_q: std_logic_vector(7 downto 0);
+	signal Z_q : std_logic_vector(0 downto 0);
 	--register loads
 	signal MARLOAD, SPLOAD, PCLOAD, IRLOAD, DRLOAD, RLOAD, ALOAD, ZLOAD : std_logic;
 	--counting controls
 	signal SPCNT, SPUD, PCCNT, PCCLR : std_logic;
 	--mux selectors
 	signal MARSEL, ASEL : std_logic_vector(1 downto 0);
-	signal DRSEL, ALUSEL : std_logic;
+	signal DRSEL : std_logic;
+	signal ALUSEL : std_logic_vector(0 downto 0);
 	--intermediate signals
 	signal MAR_mux_data : std_logic_2D(3 downto 0, 7 downto 0);
 	signal MAR_mux_out : std_logic_vector(7 downto 0);
@@ -40,8 +42,7 @@ architecture structural of reg_file is
 	signal ALU_out : std_logic_vector(7 downto 0);
 	signal A_mux_data : std_logic_2D(3 downto 0, 7 downto 0);
 	signal A_mux_out : std_logic_vector(7 downto 0);
-	signal Z_mux_data : std_logic_vector(1 downto 0);
-	signal Z_mux_out : std_logic;
+	signal Z_mux_out : std_logic_vector(0 downto 0);
 	signal V, VNOT : std_logic;
 begin
   
@@ -50,15 +51,15 @@ begin
     MARLOAD <= uOps(28) OR uOps(27) OR uOps(26);
     MARSEL(0) <= uOps(28);
     MARSEL(1) <= uOPs(27);
-    PPCNT <= uOPs(25);
-    PCLOAD <= uOPs(10) OR (uOPS(9) AND Z_q);
+    PCCNT <= uOPs(25);
+    PCLOAD <= uOPs(10) OR (uOps(9) AND Z_q(0));
     PCCLR <= uOPs(24);
     DRLOAD <= uOPs(23)OR uOPs(22);
     DRSEL <=uOPs(22);
     ALOAD <= uOps(21) OR uOps(20) OR uOps(21) OR uOps(18);
     ASEL(0) <= uOps(21);
     ASEL(1) <= uOps(18);
-    ALUSEL <= uOps(19);
+    ALUSEL(0) <= uOps(19);
     ZLOAD <= uOps(17) OR uOps(16);
     SPLOAD <= uOps(15);
     SPCNT <= uOps(14) OR uOps(13);
@@ -78,8 +79,6 @@ begin
 		A_mux_data(2, i) <= R_q(i);
 		A_mux_data(3, i) <= '0';
 	end generate;
-	Z_mux_data(0) <= VNOT;
-	Z_mux_data(1) <= V;
 	
 	MAR_MUX: lpm_mux
 		generic map(lpm_width=>8, lpm_size=>4, lpm_widths=>2)
@@ -129,12 +128,13 @@ begin
 		OR A_q(3)OR A_q(2) OR A_q(1) OR A_q(0);
 		VNOT <= NOT V;
 	
-	Z_MUX: mux
-		generic map(width=>2, widths=>1)
-		port map(data=>Z_mux_data, sel=>ZSEL, result=>Z_mux_out);
-	
+	Z_MUX:
+		with opcode(0) select Z_mux_out(0) <=
+		VNOT when '0',
+		V when '1';
+		
 	Z_REG: lpm_ff
-		generic map(lpm_width=>8)
-		port map(clock=>clk, sload=>ZLOAD, data=>Z_mux_out, q=>Z_q);
+		generic map(lpm_width=>1)
+		port map(clock=>clk, sload=>ZLOAD, data=>Z_mux_out(0), q=>Z_q(0));
 	
 end architecture;

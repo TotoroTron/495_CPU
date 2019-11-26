@@ -15,10 +15,10 @@ end entity;
 architecture structural of top_level is
 	component clk_div is
 		generic(n : positive := 50000000); --default 1hz clock
-	port(
-		clk_in : in std_logic;
-		clk_out : inout std_logic
-	);
+		port(
+			clk_in : in std_logic;
+			clk_out : inout std_logic
+		);
 	end component;
 	component cpu is
 	port(
@@ -30,6 +30,14 @@ architecture structural of top_level is
 		M_data: out std_logic_vector(7 downto 0)
 	);
 	end component;
+	component display is
+		port(
+			A_q : in std_logic_vector(7 downto 0); --from reg_file
+			seven_seg_hund : out std_logic_vector(6 downto 0); --to top_level
+			seven_seg_tens : out std_logic_vector(6 downto 0); --to top_level
+			seven_seg_ones : out std_logic_vector(6 downto 0) --to top_level
+		);
+	end component;
 	signal sys_clk : std_logic;
 	signal ram_do : std_logic_vector(7 downto 0);
 	signal ram_di : std_logic_vector(7 downto 0);
@@ -38,26 +46,28 @@ architecture structural of top_level is
 	signal A_q : std_logic_vector(7 downto 0);
 begin
 
-	CLK_DIV: clk_div
+	CLK_DIVIDE: clk_div
 		generic map(n => 50000000) --delay clock to 1Hz
 		port map(clk_in => clk_50mhz, clk_out => sys_clk);
 	
-	RAM: lpm_ram_dq
+	RAM_BLOCK: lpm_ram_dq
 		generic map(LPM_WIDTHAD => 8, LPM_WIDTH => 8, LPM_FILE => "ram1.mif")
 		port map(data => ram_di, address => ram_addr, we => ram_we, q => ram_do);
 	
-	CPU: cpu
+	CPU_BLOCK: cpu
 		port map(clk => sys_clk, --clk_div.vhd
 			A_q => A_q,
 			M_q =>ram_do,
 			M_addr =>ram_addr,
 			M_write =>ram_we,
-			M_data=>ram_di);
+			M_data=>ram_di
+		);
 	
-	DISPLAY: entity work.display
+	DISP_BLOCK: display
 		port map(A_q => A_q,
 			seven_seg_hund =>hex0,
 			seven_seg_tens =>hex1,
-			seven_seg_ones =>hex2);
+			seven_seg_ones =>hex2
+		);
 		
 end architecture;
