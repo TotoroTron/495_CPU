@@ -41,14 +41,14 @@ begin
   
   UOPS_TO_CONTROL_SIGNALS:
     M_write <= uOps(29);
-    MARLOAD <= uOps(28) OR uOps(27) OR uOps(26)
-    MARSEL(0) <= uOps(28)
-    MARSEL(1) <= uOPs(27)
-    PPCNT <= uOPs(25)
-    PCLOAD <= uOPs(10) OR (uOPS(9) AND Z_q)
-    PCCLR <= uOPs(24)
-    DRLOAD <= uOPs(23)OR uOPs(22)
-    DRSEL <=uOPs(22)
+    MARLOAD <= uOps(28) OR uOps(27) OR uOps(26);
+    MARSEL(0) <= uOps(28);
+    MARSEL(1) <= uOPs(27);
+    PPCNT <= uOPs(25);
+    PCLOAD <= uOPs(10) OR (uOPS(9) AND Z_q);
+    PCCLR <= uOPs(24);
+    DRLOAD <= uOPs(23)OR uOPs(22);
+    DRSEL <=uOPs(22);
     ALOAD <= uOps(21) OR uOps(20) OR uOps(21) OR uOps(18);
     ASEL(0) <= uOps(21);
     ASEL(1) <= uOps(18);
@@ -111,7 +111,7 @@ begin
 		port map(a=>A_q, b=>R_q, op=>ALUSEL, result=>ALU_out);
 	
 	A_MUX: lpm_mux
-		generic map(lpm_width=>8, lpm_size=>4, lpm_widths=>2);
+		generic map(lpm_width=>8, lpm_size=>4, lpm_widths=>2)
 		port map(data=>A_mux_data, sel=>ASEL, result=>A_mux_out);
 	
 	A_REG: lpm_ff
