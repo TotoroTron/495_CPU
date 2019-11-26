@@ -101,7 +101,7 @@ begin
 		port map(clock=>clk, sload=>IRLOAD, data=>DR_q, q=>opcode);
 		
 	DR_MUX: lpm_mux
-		generic map(lpm_width=>8, lpm_size=>4, lpm_widths=>2)
+		generic map(lpm_width=>8, lpm_size=>2, lpm_widths=>2)
 		port map(data=>DR_mux_data, sel => MARSEL, result => MAR_mux_out);
 	
 	DR_REG: lpm_ff
