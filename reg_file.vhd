@@ -18,7 +18,7 @@ end entity;
 
 architecture structural of reg_file is
 	--register outputs
-	signal SP_q, PC_q, opcode, DR_q, R_q, A_q : std_logic_vector(7 downto 0);
+	signal SP_q, PC_q, opcode, DR_q, R_q, A_q, Z_q : std_logic_vector(7 downto 0);
 	--register loads
 	signal MARLOAD, SPLOAD, PCLOAD, IRLOAD, DRLOAD, RLOAD, ALOAD, ZLOAD : std_logic;
 	--counting controls
@@ -38,7 +38,28 @@ architecture structural of reg_file is
 	signal Z_mux_out : std_logic;
 	signal V, VNOT : std_logic;
 begin
-	
+  
+  UOPS_TO_CONTROL_SIGNALS:
+    M_write <= uOps(29);
+    MARLOAD <= uOps(28) OR uOps(27) OR uOps(26)
+    MARSEL(0) <= uOps(28)
+    MARSEL(1) <= uOPs(27)
+    PPCNT <= uOPs(25)
+    PCLOAD <= uOPs(10) OR (uOPS(9) AND Z_q)
+    PCCLR <= uOPs(24)
+    DRLOAD <= uOPs(23)OR uOPs(22)
+    DRSEL <=uOPs(22)
+    ALOAD <= uOps(21) OR uOps(20) OR uOps(21) OR uOps(18);
+    ASEL(0) <= uOps(21);
+    ASEL(1) <= uOps(18);
+    ALUSEL <= uOps(19);
+    ZLOAD <= uOps(17) OR uOps(16);
+    SPLOAD <= uOps(15);
+    SPCNT <= uOps(14) OR uOps(13);
+    SPUD <= uOps(13);
+    RLOAD <= uOps(12);
+    IRLOAD <= uOps(11);
+
 	GEN_MUX_SIGNALS: for i in 0 to 7 generate
 		MAR_mux_data(0, i) <= SP_q(i);
 		MAR_mux_data(1, i) <= PC_q(i);
