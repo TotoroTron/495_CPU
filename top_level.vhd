@@ -52,7 +52,7 @@ begin
 	
 	RAM_BLOCK: lpm_ram_dq
 		generic map(LPM_WIDTHAD => 8, LPM_WIDTH => 8, LPM_FILE => "ram1.mif")
-		port map(data => ram_di, address => ram_addr, we => ram_we, q => ram_do);
+		port map(inclock=>sys_clk, outclock=>sys_clk, data => ram_di, address => ram_addr, we => ram_we, q => ram_do);
 	
 	CPU_BLOCK: cpu
 		port map(clk => sys_clk, --clk_div.vhd

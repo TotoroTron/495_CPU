@@ -14,7 +14,7 @@ entity exp7_useq is
 	);
 	port(
 		opcode: in std_logic_vector(3 downto 0);
-		uop: out std_logic_vector(1 to (uROM_width-9));
+		uop: out std_logic_vector(29 downto 9);
 		clock: in std_logic
 	);
 end exp7_useq;

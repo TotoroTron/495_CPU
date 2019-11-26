@@ -22,7 +22,7 @@ architecture dataflow of cpu is
 		);
 		port(
 			opcode: in std_logic_vector(3 downto 0);
-			uop: out std_logic_vector(1 to (uROM_width-9));
+			uop: out std_logic_vector(29 downto 9);
 			clock: in std_logic
 		);
 	end component;
@@ -37,13 +37,13 @@ architecture dataflow of cpu is
 			M_write : out std_logic --to ram
 		);
 	end component;
-	signal uOP : std_logic_vector(7 downto 0);
+	signal uOP : std_logic_vector(29 downto 9);
 	signal opcode : std_logic_vector(7 downto 0);
 begin
 	
 	uSEQUENCER : exp7_useq
 		generic map(uROM_width => 30, uROM_file => "microde.mif")
-		port map(clock => clk, opcode => opcode, uop => uop);
+		port map(clock => clk, opcode => opcode(7 downto 4), uop => uOP);
 		
 	REGISTER_FILE : reg_file
 		port map(
