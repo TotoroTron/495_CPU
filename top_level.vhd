@@ -2,7 +2,6 @@ library ieee;
 use ieee.std_logic_1164.all;
 library lpm;
 use lpm.lpm_components.all;
-use work.all;
 
 entity top_level is
 	port(
