@@ -15,10 +15,11 @@ end entity;
 
 architecture structural of top_level is
 	signal sys_clk : std_logic;
-	signal ram_do : std_logic_vector(15 downto 0);
-	signal ram_di : std_logic_vector(15 downto 0);
+	signal ram_do : std_logic_vector(7 downto 0);
+	signal ram_di : std_logic_vector(7 downto 0);
 	signal ram_we : std_logic;
 	signal ram_addr : std_logic_vector(7 downto 0);
+	signal A_q : std_logic_vector(7 downto 0);
 begin
 
 	CLK_DIV: entity work.clk_div
@@ -31,7 +32,12 @@ begin
 	
 	CPU: entity work.cpu
 		--generic map()
-		--port map();
+		port map(clk => sys_clk, --clk_div.vhd
+			A_q => A_q,
+			M_q =>ram_do,
+			M_addr =>ram_addr,
+			M_write =>ram_we,
+			M_data=>ram_di);
 	
 	DISPLAY: entity work.display
 		--generic map()
