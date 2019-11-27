@@ -51,7 +51,7 @@ begin
 	CLK_DIVIDE: clk_div
 		generic map(n => 50000000) --delay clock to 1Hz
 		port map(clk_in => clk_50mhz, clk_out => sys_clk);
-	sys_clk <= clk_50mhz;
+		
 	RAM_BLOCK: lpm_ram_dq
 		generic map(LPM_WIDTHAD => 8, LPM_WIDTH => 8, LPM_FILE => RAM_FILE)
 		port map(inclock=>sys_clk, outclock=>sys_clk, data => ram_di, address => ram_addr, we => ram_we, q => ram_do);
