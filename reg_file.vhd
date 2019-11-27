@@ -8,7 +8,7 @@ entity reg_file is
 		clk : in std_logic;
 		uOps : in std_logic_vector(29 downto 9); --from useq
 		M_q : in std_logic_vector(7 downto 0); --from ram
-		A_q : inout std_logic_vector(7 downto 0);
+		A_q_out : out std_logic_vector(7 downto 0);
 		M_data : out std_logic_vector(7 downto 0);
 		M_addr : out std_logic_vector(7 downto 0); --to ram
 		M_write : out std_logic --to ram
@@ -24,7 +24,7 @@ architecture structural of reg_file is
 		);
 	end component;
 	--register outputs
-	signal SP_q, PC_q, opcode, DR_q, R_q: std_logic_vector(7 downto 0);
+	signal SP_q, PC_q, opcode, DR_q, R_q, A_q: std_logic_vector(7 downto 0);
 	signal Z_q : std_logic_vector(0 downto 0);
 	--register loads
 	signal MARLOAD, SPLOAD, PCLOAD, IRLOAD, DRLOAD, RLOAD, ALOAD, ZLOAD : std_logic;
@@ -122,6 +122,7 @@ begin
 	A_REG: lpm_ff
 		generic map(lpm_width=>8)
 		port map(clock=>clk, sload=>ALOAD, data=>A_mux_out, q=>A_q);
+	A_q_out <= A_q;
 	
 	Z_ORGATE:
 		V <= A_q(7) OR A_q(6) OR A_q(5) OR A_q(4)
@@ -131,7 +132,8 @@ begin
 	Z_MUX:
 		with opcode(0) select Z_mux_out(0) <=
 		VNOT when '0',
-		V when '1';
+		V when '1',
+		'0' when others;
 		
 	Z_REG: lpm_ff
 		generic map(lpm_width=>1)

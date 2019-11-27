@@ -10,7 +10,7 @@ use lpm.lpm_components.all;
 entity exp7_useq is
 	generic (
 		uROM_width: integer := 30;
-      uROM_file: string := "microde.mif"
+      uROM_file: string := "microde.hex"
 	);
 	port(
 		opcode: in std_logic_vector(3 downto 0);

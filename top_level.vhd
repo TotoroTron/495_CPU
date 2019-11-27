@@ -4,6 +4,7 @@ library lpm;
 use lpm.lpm_components.all;
 
 entity top_level is
+	generic(RAM_FILE : string := "ram1.hex");
 	port(
 		clk_50mhz : in std_logic; --reference clock
 		hex0 : out std_logic_vector(6 downto 0);
@@ -50,13 +51,14 @@ begin
 	CLK_DIVIDE: clk_div
 		generic map(n => 50000000) --delay clock to 1Hz
 		port map(clk_in => clk_50mhz, clk_out => sys_clk);
-	
+	sys_clk <= clk_50mhz;
 	RAM_BLOCK: lpm_ram_dq
-		generic map(LPM_WIDTHAD => 8, LPM_WIDTH => 8, LPM_FILE => "ram1.mif")
+		generic map(LPM_WIDTHAD => 8, LPM_WIDTH => 8, LPM_FILE => RAM_FILE)
 		port map(inclock=>sys_clk, outclock=>sys_clk, data => ram_di, address => ram_addr, we => ram_we, q => ram_do);
 	
 	CPU_BLOCK: cpu
-		port map(clk => sys_clk, --clk_div.vhd
+		port map(
+			clk => sys_clk, --clk_div.vhd
 			A_q => A_q,
 			M_q =>ram_do,
 			M_addr =>ram_addr,
