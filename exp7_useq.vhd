@@ -14,14 +14,14 @@ entity exp7_useq is
 	);
 	port(
 		opcode: in std_logic_vector(3 downto 0);
-		uop: out std_logic_vector(29 downto 9);
+		uop: out std_logic_vector(uROM_width-1 downto 9);
 		clock: in std_logic
 	);
 end exp7_useq;
 
 architecture structural of exp7_useq is
 	signal uROM_address: std_logic_vector (7 downto 0);
-	signal uROM_out: std_logic_vector (29 downto 0);
+	signal uROM_out: std_logic_vector (uROM_width-1 downto 0);
 	signal uPC_mux_data: std_logic_2D(1 downto 0, 7 downto 0);
 	signal uPC_mux_sel: std_logic_vector(0 to 0);
 	signal uPC_mux_out: std_logic_vector(7 downto 0);
@@ -44,6 +44,6 @@ begin
             generic map (lpm_widthad => 8, lpm_width => uROM_width, lpm_file => uROM_file)
             port map (address => uROM_address, q => uROM_out, inclock => clock, outclock => clock);
 
-  uop <= uROM_out(29 downto 9);
+  uop <= uROM_out(uROM_width-1 downto 9);
   
 end structural;

@@ -15,21 +15,21 @@ end entity;
 
 architecture structural of top_level is
 	component clk_div is
-		generic(n : positive := 50000000); --default 1hz clock
+		generic(n : positive); --default 1hz clock
 		port(
 			clk_in : in std_logic;
 			clk_out : inout std_logic
 		);
 	end component;
 	component cpu is
-	port(
-		clk : in std_logic;				--from clk-div.vhd
-		M_q: in std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
-		A_q: out std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
-		M_addr: out std_logic_vector(7 downto 0);	--to reg_FILE to lpm_ram_dq
-		M_write: out std_logic;				--to reg_FILE to lpm_ram_dq
-		M_data: out std_logic_vector(7 downto 0)
-	);
+		port(
+			clk : in std_logic;				--from clk-div.vhd
+			M_q: in std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
+			A_q: out std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
+			M_addr: out std_logic_vector(7 downto 0);	--to reg_FILE to lpm_ram_dq
+			M_write: out std_logic;				--to reg_FILE to lpm_ram_dq
+			M_data: out std_logic_vector(7 downto 0)
+		);
 	end component;
 	component display is
 		port(

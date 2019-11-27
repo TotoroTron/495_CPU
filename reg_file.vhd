@@ -8,9 +8,10 @@ entity reg_file is
 		clk : in std_logic;
 		uOps : in std_logic_vector(29 downto 9); --from useq
 		M_q : in std_logic_vector(7 downto 0); --from ram
+		opcode : out std_logic_vector(3 downto 0);
 		A_q_out : out std_logic_vector(7 downto 0);
 		M_data : out std_logic_vector(7 downto 0);
-		M_addr : out std_logic_vector(7 downto 0); --to ram
+		M_addr : out std_logic_vector(7 downto 0) := X"00"; --to ram
 		M_write : out std_logic --to ram
 	);
 end entity;
@@ -24,7 +25,7 @@ architecture structural of reg_file is
 		);
 	end component;
 	--register outputs
-	signal SP_q, PC_q, opcode, DR_q, R_q, A_q: std_logic_vector(7 downto 0);
+	signal SP_q, PC_q, IR_q, DR_q, R_q, A_q: std_logic_vector(7 downto 0);
 	signal Z_q : std_logic_vector(0 downto 0);
 	--register loads
 	signal MARLOAD, SPLOAD, PCLOAD, IRLOAD, DRLOAD, RLOAD, ALOAD, ZLOAD : std_logic;
@@ -32,8 +33,7 @@ architecture structural of reg_file is
 	signal SPCNT, SPUD, PCCNT, PCCLR : std_logic;
 	--mux selectors
 	signal MARSEL, ASEL : std_logic_vector(1 downto 0);
-	signal DRSEL : std_logic_vector(0 downto 0);
-	signal ALUSEL : std_logic_vector(0 downto 0);
+	signal DRSEL, ALUSEL : std_logic_vector(0 downto 0);
 	--intermediate signals
 	signal MAR_mux_data : std_logic_2D(3 downto 0, 7 downto 0);
 	signal MAR_mux_out : std_logic_vector(7 downto 0);
@@ -98,8 +98,9 @@ begin
 	
 	IR_REG: lpm_ff
 		generic map(lpm_width=>8)
-		port map(clock=>clk, sload=>IRLOAD, data=>DR_q, q=>opcode);
-		
+		port map(clock=>clk, sload=>IRLOAD, data=>DR_q, q=>IR_q);
+	opcode <= IR_q(7 downto 4);
+	
 	DR_MUX: lpm_mux
 		generic map(lpm_width=>8, lpm_size=>2, lpm_widths=>1)
 		port map(data=>DR_mux_data, sel => DRSEL, result => DR_mux_out);
@@ -130,7 +131,7 @@ begin
 		VNOT <= NOT V;
 	
 	Z_MUX:
-		with opcode(0) select Z_mux_out(0) <=
+		with IR_q(0) select Z_mux_out(0) <=
 		VNOT when '0',
 		V when '1',
 		'0' when others;
