@@ -1,6 +1,8 @@
 # ECE495-LAB7-cpu
-
 work in progress
+
+.mif files used in Quartus for editing
+.hex files derived from .mif files used for Modelsim simulations
 
 Component Hierarchy:
 
