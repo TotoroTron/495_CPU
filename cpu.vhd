@@ -40,8 +40,9 @@ architecture dataflow of cpu is
 	end component;
 	signal uOP : std_logic_vector(29 downto 9);
 	signal opcode : std_logic_vector(3 downto 0);
+	signal not_clk : std_logic;
 begin
-	
+	not_clk <= not clk;
 	uSEQUENCER : exp7_useq
 		generic map(uROM_width => 30, uROM_file => "microde.hex")
 		port map(clock => clk, opcode => opcode, uop => uOP);

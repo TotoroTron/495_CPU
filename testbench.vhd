@@ -36,10 +36,15 @@ begin
 	--end process;
 	
 	CLOCK_GEN : process
+	variable v_buffer : boolean := true;
    begin
-		clk_50mhz <= '0';
-		wait for clk_period/2;
+    if v_buffer then
+      v_buffer := false;
+      wait for clk_period;
+  end if;
 		clk_50mhz <= '1';
+		wait for clk_period/2;
+		clk_50mhz <= '0';
 		wait for clk_period/2;
    end process;
 	

@@ -11,7 +11,7 @@ entity reg_file is
 		opcode : out std_logic_vector(3 downto 0);
 		A_q_out : out std_logic_vector(7 downto 0);
 		M_data : out std_logic_vector(7 downto 0);
-		M_addr : out std_logic_vector(7 downto 0) := X"00"; --to ram
+		M_addr : out std_logic_vector(7 downto 0); --to ram
 		M_write : out std_logic --to ram
 	);
 end entity;
@@ -86,7 +86,7 @@ begin
 		
 	MAR_REG: lpm_ff
 		generic map(lpm_width=>8)
-		port map(clock=>clk, sload=> MARLOAD, data=>MAR_mux_out, q=>M_addr);
+		port map(clock=>clk, enable=> MARLOAD, data=>MAR_mux_out, q=>M_addr);
 	
 	SP_COUNTER: lpm_counter
 		generic map(lpm_width=>8)
@@ -98,7 +98,7 @@ begin
 	
 	IR_REG: lpm_ff
 		generic map(lpm_width=>8)
-		port map(clock=>clk, sload=>IRLOAD, data=>DR_q, q=>IR_q);
+		port map(clock=>clk, enable=>IRLOAD, data=>DR_q, q=>IR_q);
 	opcode <= IR_q(7 downto 4);
 	
 	DR_MUX: lpm_mux
@@ -107,11 +107,11 @@ begin
 	
 	DR_REG: lpm_ff
 		generic map(lpm_width=>8)
-		port map(clock=>clk, sload=>DRLOAD, data=>DR_mux_out, q=>DR_q);
+		port map(clock=>clk, enable=>DRLOAD, data=>DR_mux_out, q=>DR_q);
 		
 	R_REG: lpm_ff
 		generic map(lpm_width=>8)
-		port map(clock=>clk, sload=>RLOAD, data=>A_q, q=>R_q);
+		port map(clock=>clk, enable=>RLOAD, data=>A_q, q=>R_q);
 	
 	ALU: exp7_alu
 		port map(a=>A_q, b=>R_q, op=>ALUSEL, result=>ALU_out);
@@ -122,7 +122,7 @@ begin
 	
 	A_REG: lpm_ff
 		generic map(lpm_width=>8)
-		port map(clock=>clk, sload=>ALOAD, data=>A_mux_out, q=>A_q);
+		port map(clock=>clk, enable=>ALOAD, data=>A_mux_out, q=>A_q);
 	A_q_out <= A_q;
 	
 	Z_ORGATE:
@@ -138,6 +138,6 @@ begin
 		
 	Z_REG: lpm_ff
 		generic map(lpm_width=>1)
-		port map(clock=>clk, sload=>ZLOAD, data=>Z_mux_out, q=>Z_q);
+		port map(clock=>clk, enable=>ZLOAD, data=>Z_mux_out, q=>Z_q);
 	
 end architecture;
