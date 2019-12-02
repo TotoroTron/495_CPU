@@ -3,3 +3,12 @@ display.vhd.bak
 exp7_useq.vhd.bak
 ram1.mif.bak
 *.bak
+*.wlf
+*.dat
+*.dbs
+*.prw
+*.psm
+work/_info
+work/_vmake
+*.mti
+*.mpf

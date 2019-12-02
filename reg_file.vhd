@@ -52,10 +52,10 @@ begin
     MARSEL(0) <= uOps(28);
     MARSEL(1) <= uOPs(27);
     PCCNT <= uOPs(25);
-    PCLOAD <= uOPs(10) OR (uOps(9) AND Z_q(0));
+    PCLOAD <= uOPs(10) OR ( uOps(9) AND Z_q(0) );
     PCCLR <= uOPs(24);
-    DRLOAD <= uOPs(23)OR uOPs(22);
-    DRSEL(0) <=uOPs(22);
+    DRLOAD <= uOPs(23) OR uOPs(22);
+    DRSEL(0) <= uOPs(22);
     ALOAD <= uOps(21) OR uOps(20) OR uOps(21) OR uOps(18);
     ASEL(0) <= uOps(21);
     ASEL(1) <= uOps(18);

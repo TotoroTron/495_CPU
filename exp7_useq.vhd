@@ -29,7 +29,7 @@ architecture structural of exp7_useq is
 	signal not_clock : std_logic;
 begin 
   temp <= opcode & "0000";
-  not_clock <= clock;
+  not_clock <= not clock;
   L1: for i in 0 to 7 generate
        uPC_mux_data(0, i) <= uROM_out(i);
        uPC_mux_data(1, i) <= temp(i);
@@ -41,10 +41,10 @@ begin
             port map (result=>uPC_mux_out, data=>uPC_mux_data, sel=>uPC_mux_sel);
   uPC: lpm_ff
             generic map (lpm_width=>8)
-            port map (clock=>clock, data=>uPC_mux_out, q=>uROM_address);
+            port map (clock=>CLOCK, data=>uPC_mux_out, q=>uROM_address);
   uROM: lpm_rom
             generic map (lpm_widthad=>8, lpm_width=>uROM_width, lpm_file=>uROM_file)
-            port map (address=>uROM_address, q=>uROM_out, inclock=>clock, outclock=>not_clock);
+            port map (address=>uPC_mux_out, q=>uROM_out, inclock=>clock, outclock=>CLOCK);
 
   uop <= uROM_out(uROM_width-1 downto 9);
   

@@ -37,9 +37,9 @@ begin
 	
 	CLOCK_GEN : process
    begin
-		clk_50mhz <= '1';
-		wait for clk_period/2;
 		clk_50mhz <= '0';
+		wait for clk_period/2;
+		clk_50mhz <= '1';
 		wait for clk_period/2;
    end process;
 	

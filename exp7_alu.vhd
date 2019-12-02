@@ -26,11 +26,7 @@ begin
 
 	ALU_ADDER: lpm_add_sub
 		generic map (lpm_width=>8)
-		port map (
-			dataa => a,
-			datab => b,
-			result => add_result
-	);
+		port map (dataa => a, datab => b, result => add_result);
 	
 	xor_result <= a xor b;
   
@@ -40,15 +36,8 @@ begin
 	end generate;
   
 	ALU_MUX: lpm_mux
-		generic map (
-			lpm_width => 8,
-			lpm_size => 2,
-			lpm_widths => 1
-		) port map (
-			data => mux_data,
-			result => result,
-			sel => op
-	);
+		generic map (lpm_width=>8, lpm_size => 2, lpm_widths => 1)
+		port map (data => mux_data, result => result, sel => op);
 	
 end structural;
 
