@@ -10,7 +10,8 @@ entity cpu is
 		A_q: out std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
 		M_addr: out std_logic_vector(7 downto 0);	--to reg_FILE to lpm_ram_dq
 		M_write: out std_logic;				--to reg_FILE to lpm_ram_dq
-		M_data: out std_logic_vector(7 downto 0)
+		M_data: out std_logic_vector(7 downto 0);
+		upc_clear : in std_logic
 	);
 end entity;
 
@@ -23,7 +24,7 @@ architecture dataflow of cpu is
 		port(
 			opcode: in std_logic_vector(3 downto 0);
 			uop: out std_logic_vector(29 downto 9);
-			clock: in std_logic
+			clock, enable, clear: in std_logic
 		);
 	end component;
 	component reg_file is
@@ -45,7 +46,7 @@ begin
 	not_clk <= not clk;
 	uSEQUENCER : exp7_useq
 		generic map(uROM_width => 30, uROM_file => "microde.hex")
-		port map(clock => clk, opcode => opcode, uop => uOP);
+		port map(clock => clk, enable => clk, clear => upc_clear, opcode => opcode, uop => uOP);
 		
 	REGISTER_FILE : reg_file
 		port map(
@@ -57,4 +58,6 @@ begin
 			M_addr => M_addr,
 			M_write => M_write
 		);
+	
+	
 end architecture;

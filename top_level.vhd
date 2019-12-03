@@ -9,7 +9,8 @@ entity top_level is
 		clk_50mhz : in std_logic; --reference clock
 		hex0 : out std_logic_vector(6 downto 0);
 		hex1 : out std_logic_vector(6 downto 0);
-		hex2 : out std_logic_vector(6 downto 0)
+		hex2 : out std_logic_vector(6 downto 0);
+		upc_clear : in std_logic
 	);
 end entity;
 
@@ -28,7 +29,8 @@ architecture structural of top_level is
 			A_q: out std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
 			M_addr: out std_logic_vector(7 downto 0);	--to reg_FILE to lpm_ram_dq
 			M_write: out std_logic;				--to reg_FILE to lpm_ram_dq
-			M_data: out std_logic_vector(7 downto 0)
+			M_data: out std_logic_vector(7 downto 0);
+			upc_clear: in std_logic
 		);
 	end component;
 	component display is
@@ -52,8 +54,11 @@ begin
 	--CLK_DIVIDE: clk_div
 	--	generic map(n => 50000000) --delay clock to 1Hz
 	--	port map(clk_in => clk_50mhz, clk_out => sys_clk);
-	sys_clk <= clk_50mhz;
-	not_clk <= not sys_clk;
+	DELAY: lpm_counter generic map(lpm_width=>1)
+		port map(clock => clk_50mhz, cout => sys_clk);
+	
+	--sys_clk <= clk_50mhz;
+	--not_clk <= not sys_clk;
 	
 	RAM_BLOCK: lpm_ram_dq
 		generic map(LPM_WIDTHAD => 8, LPM_WIDTH => 8, LPM_FILE => RAM_FILE)
@@ -66,7 +71,8 @@ begin
 			M_q =>ram_do,
 			M_addr =>ram_addr,
 			M_write =>ram_we,
-			M_data=>ram_di
+			M_data=>ram_di,
+			upc_clear=>upc_clear
 		);
 	
 	DISP_BLOCK: display

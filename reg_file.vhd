@@ -47,25 +47,25 @@ architecture structural of reg_file is
 begin
   
   UOPS_TO_CONTROL_SIGNALS:
-    M_write <= uOps(29);
-    MARLOAD <= uOps(28) OR uOps(27) OR uOps(26);
-    MARSEL(0) <= uOps(28);
-    MARSEL(1) <= uOPs(27);
-    PCCNT <= uOPs(25);
-    PCLOAD <= uOPs(10) OR ( uOps(9) AND Z_q(0) );
-    PCCLR <= uOPs(24);
-    DRLOAD <= uOPs(23) OR uOPs(22);
-    DRSEL(0) <= uOPs(22);
-    ALOAD <= uOps(21) OR uOps(20) OR uOps(21) OR uOps(18);
-    ASEL(0) <= uOps(21);
-    ASEL(1) <= uOps(18);
-    ALUSEL(0) <= uOps(19);
-    ZLOAD <= uOps(17) OR uOps(16);
-    SPLOAD <= uOps(15);
-    SPCNT <= uOps(14) OR uOps(13);
-    SPUD <= uOps(13);
-    RLOAD <= uOps(12);
-    IRLOAD <= uOps(11);
+    M_write 	<= uOps(29) AND clk;
+    MARLOAD 	<= (uOps(28) OR uOps(27) OR uOps(26)) AND clk;
+    MARSEL(0) 	<= uOps(28) AND clk;
+    MARSEL(1) 	<= uOPs(27) AND clk;
+    PCCNT 		<= uOPs(25) AND clk;
+    PCLOAD 		<= (uOPs(10) OR ( uOps(9) AND Z_q(0) )) AND clk;
+    PCCLR 		<= uOPs(24) AND clk;
+    DRLOAD 		<= (uOPs(23) OR uOPs(22)) AND clk;
+    DRSEL(0) 	<= uOPs(22) AND clk;
+    ALOAD 		<= (uOps(21) OR uOps(20) OR uOps(21) OR uOps(18)) AND clk;
+    ASEL(0) 	<= uOps(21) AND clk;
+    ASEL(1) 	<= uOps(18) AND clk;
+    ALUSEL(0) 	<= uOps(19) AND clk;
+    ZLOAD 		<= (uOps(17) OR uOps(16)) AND clk;
+    SPLOAD 		<= uOps(15) AND clk;
+    SPCNT 		<= (uOps(14) OR uOps(13)) AND clk;
+    SPUD 		<= uOps(13) AND clk;
+    RLOAD 		<= uOps(12) AND clk;
+    IRLOAD 		<= uOps(11) AND clk;
 
 	GEN_MUX_SIGNALS: for i in 0 to 7 generate
 		MAR_mux_data(0, i) <= SP_q(i);
