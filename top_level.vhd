@@ -7,9 +7,8 @@ entity top_level is
 	generic(RAM_FILE : string := "ram1.hex");
 	port(
 		clk_50mhz : in std_logic; --reference clock
-		hex0 : out std_logic_vector(6 downto 0);
 		hex1 : out std_logic_vector(6 downto 0);
-		--hex2 : out std_logic_vector(6 downto 0);
+		hex0 : out std_logic_vector(6 downto 0);
 		upc_clear : in std_logic
 	);
 end entity;
@@ -33,12 +32,12 @@ architecture structural of top_level is
 			upc_clear: in std_logic
 		);
 	end component;
-	component hex_encoder is
+	component display is
 		port(
+			clk : in std_logic;
 			A_q : in std_logic_vector(7 downto 0); --from reg_file
-			--hex2 : out std_logic_vector(6 downto 0); --to top_level
-			hex1 : out std_logic_vector(6 downto 0); --to top_level
-			hex0 : out std_logic_vector(6 downto 0) --to top_level
+			hex_1 : out std_logic_vector(6 downto 0); --to top_level
+			hex_0 : out std_logic_vector(6 downto 0) --to top_level
 		);
 	end component;
 	signal ram_do : std_logic_vector(7 downto 0);
@@ -64,12 +63,12 @@ begin
 			upc_clear=>upc_clear
 		);
 	
-	DISP_BLOCK: hex_encoder
+	DISP_BLOCK: display
 		port map(
+			clk => clk_50mhz,
 			A_q => A_q,
-			--hex2 => hex2,
-			hex1 => hex1,
-			hex0 => hex0
+			hex_1 => hex1,
+			hex_0 => hex0
 		);
 		
 end architecture;

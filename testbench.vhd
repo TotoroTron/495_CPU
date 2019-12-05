@@ -9,16 +9,14 @@ architecture behavioral of testbench is
 		generic(RAM_FILE: string);
 		port(
 			clk_50mhz : in std_logic; --reference clock
-			hex0 : out std_logic_vector(6 downto 0);
-			hex1 : out std_logic_vector(6 downto 0);
-			hex2 : out std_logic_vector(6 downto 0);
-			upc_clear : in std_logic
+			hex_0 : out std_logic_vector(6 downto 0);
+			hex_1 : out std_logic_vector(6 downto 0);
+						upc_clear : in std_logic
 		);
 	end component;
 	signal clk_50mhz : std_logic;
-	signal hex0 : std_logic_vector(6 downto 0);
-	signal hex1 : std_logic_vector(6 downto 0);
-	signal hex2 : std_logic_vector(6 downto 0);
+	signal hex_0 : std_logic_vector(6 downto 0);
+	signal hex_1 : std_logic_vector(6 downto 0);
 	signal upc_clear : std_logic;
 	constant clk_period : time := 20 ns;
 begin
@@ -27,9 +25,8 @@ begin
 		GENERIC MAP(RAM_FILE => "ram1.hex")
 		PORT MAP(
 			clk_50mhz => clk_50mhz,
-			hex0 => hex0,
-			hex1 => hex1,
-			hex2 => hex2,
+			hex_0 => hex_0,
+			hex_1 => hex_1,
 			upc_clear => upc_clear
 		);
 	
