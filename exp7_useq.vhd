@@ -12,7 +12,8 @@ entity exp7_useq is
            uROM_file: string := "");
   port (opcode: in std_logic_vector(3 downto 0);
         uop: out std_logic_vector(1 to (uROM_width-9));
-        enable, clear: in std_logic;
+        enable : in std_logic;
+		  clear: in std_logic;
         clock: in std_logic);
 end exp7_useq;
 

@@ -30,6 +30,7 @@ architecture dataflow of cpu is
 	component reg_file is
 		port(
 			clk : in std_logic;
+			clk2 : in std_logic;
 			uOps : in std_logic_vector(29 downto 9); --from useq
 			M_q : in std_logic_vector(7 downto 0); --from ram
 			opcode : out std_logic_vector(3 downto 0);
@@ -43,16 +44,17 @@ architecture dataflow of cpu is
 	signal opcode : std_logic_vector(3 downto 0);
 	signal clk2: std_logic;
 begin
-	CLK_DELAY: lpm_counter generic map(lpm_width=>4)
+	CLK_DELAY: lpm_counter generic map(lpm_width=>24)
 		port map(clock => clk, cout => clk2);
 	
 	uSEQUENCER : exp7_useq
 		generic map(uROM_width => 30, uROM_file => "microde.hex")
-		port map(clock => clk2, enable => clk, clear => upc_clear, opcode => opcode, uop => uOP);
+		port map(clock => clk, enable => clk2, clear => upc_clear, opcode => opcode, uop => uOP); --50mhz clock, delayed clk
 		
 	REGISTER_FILE : reg_file
 		port map(
-			clk => clk, --clk_div.vhd
+			clk => clk, --50mhz
+			clk2 => clk2,
 			uOps => uOp,
 			M_q => M_q,
 			opcode => opcode,

@@ -1,68 +1,61 @@
+-- die_decoder.vhd
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
 
-entity display is
-	port(
-		clk : in std_logic;
-		A_q : in std_logic_vector(7 downto 0); --from reg_file
-		seven_seg_hund : out std_logic_vector(6 downto 0); --to top_level
-		seven_seg_tens : out std_logic_vector(6 downto 0); --to top_level
-		seven_seg_ones : out std_logic_vector(6 downto 0) --to top_level
-	);
-end entity;
+entity hex_encoder is
+  port (
+    A_q : in std_logic_vector(7 downto 0);
+    --hex_2: out std_logic_vector(6 downto 0);
+    hex_1: out std_logic_vector(6 downto 0);
+	 hex_0: out std_logic_vector(6 downto 0)
+  );
+end hex_encoder;
 
-architecture behavioral of display is
-begin
-	ENCODE: process(clk)
-		Variable hund, tens, ones : integer range 0 to 9;
-		variable count : integer range 0 to 255;
-	begin
-		if rising_edge(clk) then
-		Count := to_integer(unsigned(A_q));
+architecture behavior of hex_encoder is
+	signal not_hex_0 : std_logic_vector(6 downto 0);
+	signal not_hex_1 : std_logic_vector(6 downto 0);
 
-		Hund := ((count mod 1000) - (count mod 100))/100;
-		Tens := ((count mod 100) - (count mod 10))/10;
-		Ones := ((count mod 10) - (count mod 1))/1;
+Begin
+	with A_q(7 downto 4) select not_hex_1 <=
+		"0111111" when "0000",
+		"0000110" when "0001",
+		"1011011" when "0010", --2
+		"1001111" when "0011", --3
+		"1100110" when "0100", --4
+		"1101101" when "0101", --5
+		"1111101" when "0110", --6
+		"0000111" when "0111",
+		"1111111" when "1000",
+		"1101111" when "1001", --9
+		"1110111" when "1010", --A
+		"1111100" when "1011", --B
+		"0111001" when "1100", --C
+		"1011110" when "1101", --D
+		"1111001" when "1110", --E
+		"1110001" when "1111", --F
+		"0000000" when others;
 		
-		Case hund is
-		When 0=>seven_seg_hund<="1000000";
-		When 1=>seven_seg_hund<="1111001";
-		When 2=>seven_seg_hund<="0100100";
-		When 3=>seven_seg_hund<="0110000";
-		When 4=>seven_seg_hund<="0011001";
-		When 5=>seven_seg_hund<="0010010";
-		When 6=>seven_seg_hund<="0000010";
-		When 7=>seven_seg_hund<="1111000";
-		When 8=>seven_seg_hund<="0000000";
-		When 9=>seven_seg_hund<="0010000";
-		end case;
+	with A_q(3 downto 0) select not_hex_0 <=
+		"0111111" when "0000",
+		"0000110" when "0001",
+		"1011011" when "0010", --2
+		"1001111" when "0011", --3
+		"1100110" when "0100", --4
+		"1101101" when "0101", --5
+		"1111101" when "0110", --6
+		"0000111" when "0111",
+		"1111111" when "1000",
+		"1101111" when "1001", --9
+		"1110111" when "1010", --A
+		"1111100" when "1011", --B
+		"0111001" when "1100", --C
+		"1011110" when "1101", --D
+		"1111001" when "1110", --E
+		"1110001" when "1111", --F
+		"0000000" when others;
+    
+	hex_0 <= not not_hex_0;
+	hex_1 <= not not_hex_1;
+	
+end behavior;
 
-		Case tens is
-		When 0=>seven_seg_tens<="1000000";
-		When 1=>seven_seg_tens<="1111001";
-		When 2=>seven_seg_tens<="0100100";
-		When 3=>seven_seg_tens<="0110000";
-		When 4=>seven_seg_tens<="0011001";
-		When 5=>seven_seg_tens<="0010010";
-		When 6=>seven_seg_tens<="0000010";
-		When 7=>seven_seg_tens<="1111000";
-		When 8=>seven_seg_tens<="0000000";
-		When 9=>seven_seg_tens<="0010000";
-		end case;
-
-		Case ones is
-		When 0=>seven_seg_ones<="1000000";
-		When 1=>seven_seg_ones<="1111001";
-		When 2=>seven_seg_ones<="0100100";
-		When 3=>seven_seg_ones<="0110000";
-		When 4=>seven_seg_ones<="0011001";
-		When 5=>seven_seg_ones<="0010010";
-		When 6=>seven_seg_ones<="0000010";
-		When 7=>seven_seg_ones<="1111000";
-		When 8=>seven_seg_ones<="0000000";
-		When 9=>seven_seg_ones<="0010000";
-		end case;
-		end if;
-	end process;
-end architecture;

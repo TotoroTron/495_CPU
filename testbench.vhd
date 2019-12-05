@@ -33,10 +33,11 @@ begin
 			upc_clear => upc_clear
 		);
 	
-	--TESTBENCH: process
-	--begin
-	--	wait;
-	--end process;
+	TESTBENCH: process
+	begin
+		upc_clear <= '0';
+		wait;
+	end process;
 	
 	CLOCK_GEN : process
 	variable v_buffer : boolean := true;

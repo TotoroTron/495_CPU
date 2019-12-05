@@ -6,6 +6,7 @@ use lpm.lpm_components.all;
 entity reg_file is
 	port(
 		clk : in std_logic;
+		clk2 : in std_logic;
 		uOps : in std_logic_vector(29 downto 9); --from useq
 		M_q : in std_logic_vector(7 downto 0); --from ram
 		opcode : out std_logic_vector(3 downto 0);
@@ -90,11 +91,11 @@ begin
 	
 	SP_COUNTER: lpm_counter
 		generic map(lpm_width=>8)
-		port map(clock=>clk, data=>DR_q, sload=>SPLOAD, cnt_en=>SPCNT, updown=>SPUD, q=>SP_q);
+		port map(clock=>clk2, data=>DR_q, sload=>SPLOAD, cnt_en=>SPCNT, updown=>SPUD, q=>SP_q);
 	
 	PC_COUNTER: lpm_counter
 		generic map(lpm_width=>8)
-		port map(clock=>clk, data=>DR_q, sload=>PCLOAD, cnt_en=>PCCNT, sclr=>PCCLR, q=>PC_q);
+		port map(clock=>clk2, data=>DR_q, sload=>PCLOAD, cnt_en=>PCCNT, sclr=>PCCLR, q=>PC_q);
 	
 	IR_REG: lpm_ff
 		generic map(lpm_width=>8)
