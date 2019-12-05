@@ -54,10 +54,8 @@ begin
 	--CLK_DIVIDE: clk_div
 	--	generic map(n => 50000000) --delay clock to 1Hz
 	--	port map(clk_in => clk_50mhz, clk_out => sys_clk);
-	DELAY: lpm_counter generic map(lpm_width=>1)
-		port map(clock => clk_50mhz, cout => sys_clk);
 	
-	--sys_clk <= clk_50mhz;
+	sys_clk <= clk_50mhz;
 	--not_clk <= not sys_clk;
 	
 	RAM_BLOCK: lpm_ram_dq
