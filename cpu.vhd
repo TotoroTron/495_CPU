@@ -44,15 +44,15 @@ architecture dataflow of cpu is
 	signal clk2: std_logic;
 begin
 	CLK_DELAY: lpm_counter generic map(lpm_width=>4)
-		port map(clock => clk_50mhz, cout => clk2);
+		port map(clock => clk, cout => clk2);
 	
 	uSEQUENCER : exp7_useq
 		generic map(uROM_width => 30, uROM_file => "microde.hex")
-		port map(clock => clk, enable => clk, clear => upc_clear, opcode => opcode, uop => uOP);
+		port map(clock => clk2, enable => clk, clear => upc_clear, opcode => opcode, uop => uOP);
 		
 	REGISTER_FILE : reg_file
 		port map(
-			clk => clk2, --clk_div.vhd
+			clk => clk, --clk_div.vhd
 			uOps => uOp,
 			M_q => M_q,
 			opcode => opcode,

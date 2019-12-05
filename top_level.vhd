@@ -50,13 +50,6 @@ architecture structural of top_level is
 	signal A_q : std_logic_vector(7 downto 0);
 	signal not_clk : std_logic;
 begin
-
-	--CLK_DIVIDE: clk_div
-	--	generic map(n => 50000000) --delay clock to 1Hz
-	--	port map(clk_in => clk_50mhz, clk_out => sys_clk);
-	
-	sys_clk <= clk_50mhz;
-	--not_clk <= not sys_clk;
 	
 	RAM_BLOCK: lpm_ram_dq
 		generic map(LPM_WIDTHAD => 8, LPM_WIDTH => 8, LPM_FILE => RAM_FILE)
@@ -64,7 +57,7 @@ begin
 	
 	CPU_BLOCK: cpu
 		port map(
-			clk => sys_clk, --clk_div.vhd
+			clk => clk_50mhz, --clk_div.vhd
 			A_q => A_q,
 			M_q =>ram_do,
 			M_addr =>ram_addr,
@@ -75,7 +68,7 @@ begin
 	
 	DISP_BLOCK: display
 		port map(
-			clk => sys_clk,
+			clk => clk_50mhz,
 			A_q => A_q,
 			seven_seg_hund =>hex2,
 			seven_seg_tens =>hex1,
