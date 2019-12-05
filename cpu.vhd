@@ -8,6 +8,7 @@ entity cpu is
 		clk : in std_logic;				--from clk-div.vhd
 		M_q: in std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
 		A_q: out std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
+		ALU_out_disp : out std_logic_vector(7 downto 0);
 		M_addr: out std_logic_vector(7 downto 0);	--to reg_FILE to lpm_ram_dq
 		M_write: out std_logic;				--to reg_FILE to lpm_ram_dq
 		M_data: out std_logic_vector(7 downto 0);

@@ -14,6 +14,8 @@ end display;
 architecture behavior of display is
 	signal not_hex_0 : std_logic_vector(6 downto 0);
 	signal not_hex_1 : std_logic_vector(6 downto 0);
+	signal not_hex_2 : std_logic_vector(6 downto 0);
+	signal not_hex_3 : std_logic_vector(6 downto 0);
 Begin
 
 	DISPLAY_PROC: process(clk, A_q)
@@ -59,11 +61,12 @@ Begin
 		when "1111" => not_hex_0 <= "1110001"; --15
 		when others => not_hex_0 <= "0000000";
 		end case;
+				
 	end if;
 		hex_0 <= not not_hex_0;
 		hex_1 <= not not_hex_1;
+		
 	end process;
-	
 
 end behavior;
 

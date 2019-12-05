@@ -123,7 +123,7 @@ begin
 	
 	A_REG: lpm_ff
 		generic map(lpm_width=>8)
-		port map(clock=>clk, enable=>ALOAD, data=>A_mux_out, q=>A_q);
+		port map(clock=>clk2, enable=>ALOAD, data=>A_mux_out, q=>A_q);
 	A_q_out <= A_q;
 	
 	Z_ORGATE:
