@@ -4,7 +4,7 @@ library lpm;
 use lpm.lpm_components.all;
 
 entity top_level is
-	generic(RAM_FILE : string := "ram2.hex");
+	generic(RAM_FILE : string := "ram2.mif");
 	port(
 		clk_50mhz : in std_logic; --reference clock
 		hex1 : out std_logic_vector(6 downto 0);
@@ -45,7 +45,6 @@ architecture structural of top_level is
 	signal ram_we : std_logic;
 	signal ram_addr : std_logic_vector(7 downto 0);
 	signal A_q : std_logic_vector(7 downto 0);
-	signal ALU_out_disp : std_logic_vector(7 downto 0);
 	signal not_clk : std_logic;
 begin
 	

@@ -8,7 +8,6 @@ entity cpu is
 		clk : in std_logic;				--from clk-div.vhd
 		M_q: in std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
 		A_q: out std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
-		ALU_out_disp : out std_logic_vector(7 downto 0);
 		M_addr: out std_logic_vector(7 downto 0);	--to reg_FILE to lpm_ram_dq
 		M_write: out std_logic;				--to reg_FILE to lpm_ram_dq
 		M_data: out std_logic_vector(7 downto 0);
@@ -45,7 +44,7 @@ architecture dataflow of cpu is
 	signal opcode : std_logic_vector(3 downto 0);
 	signal clk2: std_logic;
 begin
-	CLK_DELAY: lpm_counter generic map(lpm_width=>4)
+	CLK_DELAY: lpm_counter generic map(lpm_width=>22)
 		port map(clock => clk, cout => clk2);
 	
 	uSEQUENCER : exp7_useq
@@ -55,12 +54,13 @@ begin
 	REGISTER_FILE : reg_file
 		port map(
 			clk => clk, --50mhz
-			clk2 => clk2,
+			clk2 => clk2, --1HZ
 			uOps => uOp,
 			M_q => M_q,
 			opcode => opcode,
 			A_q_out => A_q,
 			M_addr => M_addr,
+			M_data => M_data,
 			M_write => M_write
 		);
 	

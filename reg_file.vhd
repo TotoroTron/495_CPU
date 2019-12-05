@@ -110,6 +110,7 @@ begin
 		generic map(lpm_width=>8)
 		port map(clock=>clk, enable=>DRLOAD, data=>DR_mux_out, q=>DR_q);
 	M_data <= DR_q;
+	
 	R_REG: lpm_ff
 		generic map(lpm_width=>8)
 		port map(clock=>clk, enable=>RLOAD, data=>A_q, q=>R_q);
