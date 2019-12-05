@@ -13,7 +13,8 @@ entity reg_file is
 		A_q_out : out std_logic_vector(7 downto 0);
 		M_data : out std_logic_vector(7 downto 0);
 		M_addr : out std_logic_vector(7 downto 0); --to ram
-		M_write : out std_logic --to ram
+		M_write : out std_logic; --to ram
+		MarOut : out std_logic
 	);
 end entity;
 
@@ -79,6 +80,7 @@ begin
 		A_mux_data(1, i) <= DR_q(i);
 		A_mux_data(2, i) <= R_q(i);
 		A_mux_data(3, i) <= '0';
+=
 	end generate;
 	
 	MAR_MUX: lpm_mux
@@ -89,6 +91,7 @@ begin
 		generic map(lpm_width=>8)
 		port map(clock=>clk, enable=> MARLOAD, data=>MAR_mux_out, q=>M_addr);
 	
+	MARLOAD=>MAROUT;
 	SP_COUNTER: lpm_counter
 		generic map(lpm_width=>8)
 		port map(clock=>clk2, data=>DR_q, sload=>SPLOAD, cnt_en=>SPCNT, updown=>SPUD, q=>SP_q);
