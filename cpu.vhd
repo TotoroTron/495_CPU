@@ -45,7 +45,7 @@ architecture dataflow of cpu is
 	signal opcode : std_logic_vector(3 downto 0);
 	signal clk2: std_logic;
 begin
-	CLK_DELAY: lpm_counter generic map(lpm_width=>24)
+	CLK_DELAY: lpm_counter generic map(lpm_width=>4)
 		port map(clock => clk, cout => clk2);
 	
 	uSEQUENCER : exp7_useq
