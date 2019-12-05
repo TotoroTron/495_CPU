@@ -9,7 +9,8 @@ entity top_level is
 		clk_50mhz : in std_logic; --reference clock
 		hex1 : out std_logic_vector(6 downto 0);
 		hex0 : out std_logic_vector(6 downto 0);
-		upc_clear : in std_logic
+		upc_clear : in std_logic;
+		MAROut : in std_logic
 	);
 end entity;
 
@@ -29,7 +30,8 @@ architecture structural of top_level is
 			M_addr: out std_logic_vector(7 downto 0);	--to reg_FILE to lpm_ram_dq
 			M_write: out std_logic;				--to reg_FILE to lpm_ram_dq
 			M_data: out std_logic_vector(7 downto 0);
-			upc_clear: in std_logic
+			upc_clear: in std_logic;
+			MAROut : in std_logic
 		);
 	end component;
 	component display is
@@ -61,6 +63,7 @@ begin
 			M_write =>ram_we,
 			M_data=>ram_di,
 			upc_clear=>upc_clear
+			MAROut = > MAROut
 		);
 	
 	DISP_BLOCK: display
