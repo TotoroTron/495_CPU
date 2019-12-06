@@ -10,7 +10,8 @@ entity top_level is
 		hex1 : out std_logic_vector(6 downto 0);
 		hex0 : out std_logic_vector(6 downto 0);
 		upc_clear : in std_logic;
-		MAROut : out std_logic
+		MAROut : out std_logic;
+		SPLoadOut : out std_logic
 	);
 end entity;
 
@@ -31,7 +32,8 @@ architecture structural of top_level is
 			M_write: out std_logic;				--to reg_FILE to lpm_ram_dq
 			M_data: out std_logic_vector(7 downto 0);
 			upc_clear: in std_logic;
-			MAROut : out std_logic
+			MAROut : out std_logic;
+			SPLoadOut : out std_logic
 		);
 	end component;
 	component display is
