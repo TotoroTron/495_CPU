@@ -58,7 +58,7 @@ begin
     PCCLR 		<= uOPs(24) ;
     DRLOAD 		<= (uOPs(23) OR uOPs(22)) ;
     DRSEL(0) 	<= uOPs(22) ;
-    ALOAD 		<= (uOps(21) OR uOps(20) OR uOps(21) OR uOps(18)) ;
+    ALOAD 		<= (uOps(21) OR uOps(20) OR uOps(19) OR uOps(18)) ;
     ASEL(0) 	<= uOps(21) ;
     ASEL(1) 	<= uOps(18) ;
     ALUSEL(0) 	<= uOps(19) ;
@@ -80,7 +80,7 @@ begin
 		A_mux_data(1, i) <= DR_q(i);
 		A_mux_data(2, i) <= R_q(i);
 		A_mux_data(3, i) <= '0';
-=
+
 	end generate;
 	
 	MAR_MUX: lpm_mux
@@ -91,7 +91,7 @@ begin
 		generic map(lpm_width=>8)
 		port map(clock=>clk, enable=> MARLOAD, data=>MAR_mux_out, q=>M_addr);
 	
-	MARLOAD=>MAROUT;
+	MAROut <= MARLOAD;
 	SP_COUNTER: lpm_counter
 		generic map(lpm_width=>8)
 		port map(clock=>clk2, data=>DR_q, sload=>SPLOAD, cnt_en=>SPCNT, updown=>SPUD, q=>SP_q);
@@ -128,7 +128,7 @@ begin
 	A_REG: lpm_ff
 		generic map(lpm_width=>8)
 		port map(clock=>clk2, enable=>ALOAD, data=>A_mux_out, q=>A_q);
-	A_q_out <= A_q;
+	A_q_out <= SP_q;
 	
 	Z_ORGATE:
 		V <= A_q(7) OR A_q(6) OR A_q(5) OR A_q(4)

@@ -6,7 +6,6 @@ end entity;
 
 architecture behavioral of testbench is
 	component top_level is
-		generic(RAM_FILE: string);
 		port(
 			clk_50mhz : in std_logic; --reference clock
 			hex0 : out std_logic_vector(6 downto 0);
@@ -23,7 +22,6 @@ architecture behavioral of testbench is
 begin
 
 	UUT: top_level
-		GENERIC MAP(RAM_FILE => "ram2.hex")
 		PORT MAP(
 			clk_50mhz => clk_50mhz,
 			hex0 => hex0,

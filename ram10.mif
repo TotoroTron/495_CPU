@@ -7,20 +7,20 @@ DATA_RADIX = HEX;
 CONTENT
 BEGIN
 
--- 00: load FF A = 00
--- 02: load F0 A = 01
--- 04: move A = 01, R = 01
--- 05: load F1 A = 03
--- 07: add A = 04
--- 08: move A = 04, R = 04
--- 09: load F2 A = 05
--- 0B: add A = 09
--- 0C: move A = 09, R = 09
--- 0D: load F3 A = 07
--- 0F: add A = 10
--- 10: move A = 10, R = 10
--- 11: load F4 A = 09
--- 13: add A = 19
+-- 00: load FF 	A = 00
+-- 02: load F0 	A = 01
+-- 04: move 	A = 01, R = 01
+-- 05: load F1 	A = 03
+-- 07: add 		A = 04
+-- 08: move 	A = 04, R = 04
+-- 09: load F2 	A = 05
+-- 0B: add 		A = 09
+-- 0C: move 	A = 09, R = 09
+-- 0D: load F3 	A = 07
+-- 0F: add 		A = 10
+-- 10: move 	A = 10, R = 10
+-- 11: load F4 	A = 09
+-- 13: add 		A = 19
 -- 14: halt
 --
 00: 20 FF 20 F0 40 20 F1 50 40 20 F2 50 40 20 F3 50 40 20 F4 50 F0;

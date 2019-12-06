@@ -11,7 +11,8 @@ entity cpu is
 		M_addr: out std_logic_vector(7 downto 0);	--to reg_FILE to lpm_ram_dq
 		M_write: out std_logic;				--to reg_FILE to lpm_ram_dq
 		M_data: out std_logic_vector(7 downto 0);
-		upc_clear : in std_logic
+		upc_clear : in std_logic;
+		MAROut : out std_logic
 	);
 end entity;
 
@@ -45,7 +46,7 @@ architecture dataflow of cpu is
 	signal opcode : std_logic_vector(3 downto 0);
 	signal clk2: std_logic;
 begin
-	CLK_DELAY: lpm_counter generic map(lpm_width=>22)
+	CLK_DELAY: lpm_counter generic map(lpm_width=>24) --22
 		port map(clock => clk, cout => clk2);
 	
 	uSEQUENCER : exp7_useq
