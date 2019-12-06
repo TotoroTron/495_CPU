@@ -41,7 +41,7 @@ architecture dataflow of cpu is
 			M_addr : out std_logic_vector(7 downto 0); --to ram
 			M_write : out std_logic; --to ram
 			MAROut : out std_logic;
-			SPLoadOut : out std_logic;
+			SPLoadOut : out std_logic
 		);
 	end component;
 	signal uOP : std_logic_vector(29 downto 9);
@@ -66,8 +66,8 @@ begin
 			M_addr => M_addr,
 			M_data => M_data,
 			M_write => M_write,
-			MAROut => MAROut;
-			SPLoadOut => MAROut
+			MAROut => MAROut,
+			SPLoadOut => SPLoadOut
 		);
 	
 	

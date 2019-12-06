@@ -65,7 +65,8 @@ begin
 			M_write =>ram_we,
 			M_data=>ram_di,
 			upc_clear=>upc_clear,
-			MAROut => MAROut
+			MAROut => MAROut,
+			SPLoadOut => SPLoadOut
 		);
 	
 	DISP_BLOCK: display
