@@ -4,7 +4,7 @@ library lpm;
 use lpm.lpm_components.all;
 
 entity top_level is
-	generic(RAM_FILE : string := "ram12.mif");
+	generic(RAM_FILE : string := "ram1.hex");
 	port(
 		clk_50mhz : in std_logic; --reference clock
 		hex1 : out std_logic_vector(6 downto 0);
