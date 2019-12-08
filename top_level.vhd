@@ -4,14 +4,12 @@ library lpm;
 use lpm.lpm_components.all;
 
 entity top_level is
-	generic(RAM_FILE : string := "ram1.hex");
+	generic(RAM_FILE : string := "ram12.hex");
 	port(
 		clk_50mhz : in std_logic; --reference clock
-		hex1 : out std_logic_vector(6 downto 0);
-		hex0 : out std_logic_vector(6 downto 0);
-		upc_clear : in std_logic;
-		MAROut : out std_logic;
-		SPLoadOut : out std_logic
+		hex_1 : out std_logic_vector(6 downto 0);
+		hex_0 : out std_logic_vector(6 downto 0);
+		upc_clear : in std_logic
 	);
 end entity;
 
@@ -31,9 +29,7 @@ architecture structural of top_level is
 			M_addr: out std_logic_vector(7 downto 0);	--to reg_FILE to lpm_ram_dq
 			M_write: out std_logic;				--to reg_FILE to lpm_ram_dq
 			M_data: out std_logic_vector(7 downto 0);
-			upc_clear: in std_logic;
-			MAROut : out std_logic;
-			SPLoadOut : out std_logic
+			upc_clear: in std_logic
 		);
 	end component;
 	component display is
@@ -49,32 +45,36 @@ architecture structural of top_level is
 	signal ram_we : std_logic;
 	signal ram_addr : std_logic_vector(7 downto 0);
 	signal A_q : std_logic_vector(7 downto 0);
-	signal not_clk : std_logic;
 begin
 	
 	RAM_BLOCK: lpm_ram_dq
 		generic map(LPM_WIDTHAD => 8, LPM_WIDTH => 8, LPM_FILE => RAM_FILE)
-		port map(inclock=>CLK_50mhz, outclock=>clk_50mhz, data => ram_di, address => ram_addr, we => ram_we, q => ram_do);
+		port map(
+			inclock => CLK_50mhz,
+			outclock => clk_50mhz,
+			data => ram_di,
+			address => ram_addr,
+			we => ram_we,
+			q => ram_do
+		);
 	
 	CPU_BLOCK: cpu
 		port map(
 			clk => clk_50mhz, --clk_div.vhd
 			A_q => A_q,
-			M_q =>ram_do,
-			M_addr =>ram_addr,
-			M_write =>ram_we,
-			M_data=>ram_di,
-			upc_clear=>upc_clear,
-			MAROut => MAROut,
-			SPLoadOut => SPLoadOut
+			M_q => ram_do,
+			M_addr => ram_addr,
+			M_write => ram_we,
+			M_data => ram_di,
+			upc_clear => upc_clear
 		);
 	
 	DISP_BLOCK: display
 		port map(
 			clk => clk_50mhz,
 			A_q => A_q,	
-			hex_1 => hex1,
-			hex_0 => hex0
+			hex_1 => hex_1,
+			hex_0 => hex_0
 		);
 		
 end architecture;

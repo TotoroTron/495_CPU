@@ -13,9 +13,7 @@ entity reg_file is
 		A_q_out : out std_logic_vector(7 downto 0);
 		M_data : out std_logic_vector(7 downto 0);
 		M_addr : out std_logic_vector(7 downto 0); --to ram
-		M_write : out std_logic; --to ram
-		MarOut : out std_logic;
-		SPLoadOut : out std_logic
+		M_write : out std_logic --to ram
 	);
 end entity;
 
@@ -51,24 +49,24 @@ begin
   
   UOPS_TO_CONTROL_SIGNALS:
     M_write 	<= uOps(29);
-    MARLOAD 	<= (uOps(28) OR uOps(27) OR uOps(26));
+    MARLOAD 	<= uOps(28) OR uOps(27) OR uOps(26);
     MARSEL(0) 	<= uOps(28);
-    MARSEL(1) 	<= uOPs(27) ;
-    PCCNT 		<= uOPs(25) ;
-    PCLOAD 		<= (uOPs(10) OR ( uOps(9) AND Z_q(0) )) ;
-    PCCLR 		<= uOPs(24) ;
-    DRLOAD 		<= (uOPs(23) OR uOPs(22)) ;
-    DRSEL(0) 	<= uOPs(22) ;
-    ALOAD 		<= (uOps(21) OR uOps(20) OR uOps(19) OR uOps(18)) ;
-    ASEL(0) 	<= uOps(21) ;
-    ASEL(1) 	<= uOps(18) ;
-    ALUSEL(0) 	<= uOps(19) ;
-    ZLOAD 		<= (uOps(17) OR uOps(16)) ;
-    SPLOAD 		<= uOps(15) ;
-    SPCNT 		<= (uOps(14) OR uOps(13)) ;
-    SPUD 		<= uOps(13) ;
-    RLOAD 		<= uOps(12) ;
-    IRLOAD 		<= uOps(11) ;
+    MARSEL(1) 	<= uOPs(27);
+    PCCNT 		<= uOPs(25);
+    PCLOAD 		<= uOPs(10) OR ( uOps(9) AND Z_q(0) ) ;
+    PCCLR 		<= uOPs(24);
+    DRLOAD 		<= uOPs(23) OR uOPs(22) ;
+    DRSEL(0) 	<= uOPs(22);
+    ALOAD 		<= uOps(21) OR uOps(20) OR uOps(19) OR uOps(18) ;
+    ASEL(0) 	<= uOps(21);
+    ASEL(1) 	<= uOps(18);
+    ALUSEL(0) 	<= uOps(19);
+    ZLOAD 		<= uOps(17) OR uOps(16) ;
+    SPLOAD 		<= uOps(15);
+    SPCNT 		<= uOps(14) OR uOps(13) ;
+    SPUD 		<= uOps(13);
+    RLOAD 		<= uOps(12);
+    IRLOAD 		<= uOps(11);
 
 	GEN_MUX_SIGNALS: for i in 0 to 7 generate
 		MAR_mux_data(0, i) <= SP_q(i);
@@ -81,7 +79,6 @@ begin
 		A_mux_data(1, i) <= DR_q(i);
 		A_mux_data(2, i) <= R_q(i);
 		A_mux_data(3, i) <= '0';
-
 	end generate;
 	
 	MAR_MUX: lpm_mux
@@ -92,8 +89,6 @@ begin
 		generic map(lpm_width=>8)
 		port map(clock=>clk, enable=> MARLOAD, data=>MAR_mux_out, q=>M_addr);
 	
-	MAROut <= MARLOAD;
-	SPLoadOut <= SPLOAD;
 	SP_COUNTER: lpm_counter
 		generic map(lpm_width=>8)
 		port map(clock=>clk2, data=>DR_q, sload=>SPLOAD, cnt_en=>SPCNT, updown=>SPUD, q=>SP_q);
@@ -130,7 +125,7 @@ begin
 	A_REG: lpm_ff
 		generic map(lpm_width=>8)
 		port map(clock=>clk2, enable=>ALOAD, data=>A_mux_out, q=>A_q);
-	A_q_out <= SP_q;
+	A_q_out <= A_q;
 	
 	Z_ORGATE:
 		V <= A_q(7) OR A_q(6) OR A_q(5) OR A_q(4)
