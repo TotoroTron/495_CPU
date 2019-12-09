@@ -13,7 +13,8 @@ entity cpu is
 		M_addr: out std_logic_vector(7 downto 0);	--to reg_FILE to lpm_ram_dq
 		M_write: out std_logic;							--to reg_FILE to lpm_ram_dq
 		M_data: out std_logic_vector(7 downto 0); --output of MAR
-		upc_clear : in std_logic
+		upc_clear : in std_logic;
+		MARload : out std_logic
 	);
 end entity;
 
@@ -39,7 +40,8 @@ architecture dataflow of cpu is
 			A_q_out : out std_logic_vector(7 downto 0);
 			M_data : out std_logic_vector(7 downto 0);
 			M_addr : out std_logic_vector(7 downto 0); --to ram
-			M_write : out std_logic --to ram
+			M_write : out std_logic; --to ram
+			MARload_out : out std_logic
 		);
 	end component;
 	signal uOP : std_logic_vector(29 downto 9);
@@ -64,7 +66,8 @@ begin
 			A_q_out => A_q,
 			M_addr => M_addr,
 			M_data => M_data,
-			M_write => M_write
+			M_write => M_write,
+			MARload_out => MARload
 		);
 	
 end architecture;

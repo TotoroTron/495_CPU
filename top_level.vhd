@@ -5,14 +5,15 @@ use lpm.lpm_components.all;
 
 entity top_level is
 	generic(
-		RAM_FILE : string := "test_programs/ram12.mif"; --test program name
-		uROM_FILE : string := "microde.mif";
+		RAM_FILE : string := "test_programs/ram12.mif"; --test program directory/name
+		uROM_FILE : string := "microde.mif"; --usequencer uROM file
 		clk_speed : integer := 22); --delay clock lpm_counter width
 	port(
 		clk_50mhz : in std_logic; --reference clock
 		hex_1 : out std_logic_vector(6 downto 0);
 		hex_0 : out std_logic_vector(6 downto 0);
-		upc_clear : in std_logic
+		upc_clear : in std_logic;
+		MARload : out std_logic
 	);
 end entity;
 
@@ -34,7 +35,8 @@ architecture structural of top_level is
 			M_addr: out std_logic_vector(7 downto 0);	--to reg_FILE to lpm_ram_dq
 			M_write: out std_logic;				--to reg_FILE to lpm_ram_dq
 			M_data: out std_logic_vector(7 downto 0);
-			upc_clear: in std_logic
+			upc_clear: in std_logic;
+			MARload : out std_logic
 		);
 	end component;
 	component display is
@@ -73,7 +75,8 @@ begin
 			M_addr => ram_addr,
 			M_write => ram_we,
 			M_data => ram_di,
-			upc_clear => upc_clear
+			upc_clear => upc_clear,
+			MARload => MARload
 		);
 	
 	DISP_BLOCK: display

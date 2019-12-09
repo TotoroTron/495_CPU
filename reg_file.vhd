@@ -13,7 +13,8 @@ entity reg_file is
 		A_q_out : out std_logic_vector(7 downto 0);
 		M_data : out std_logic_vector(7 downto 0);
 		M_addr : out std_logic_vector(7 downto 0); --to ram
-		M_write : out std_logic --to ram
+		M_write : out std_logic; --to ram
+		MARload_out : out std_logic
 	);
 end entity;
 
@@ -85,6 +86,7 @@ begin
 	MAR_REG: lpm_ff
 		generic map(lpm_width=>8)
 		port map(clock=>clk, enable=> MARLOAD, data=>MAR_mux_out, q=>M_addr);
+	MARload_out <= MARLOAD;
 	
 	SP_COUNTER: lpm_counter
 		generic map(lpm_width=>8)
