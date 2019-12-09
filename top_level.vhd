@@ -5,7 +5,7 @@ use lpm.lpm_components.all;
 
 entity top_level is
 	generic(
-		RAM_FILE : string := "ram12.mif"; --test program name
+		RAM_FILE : string := "test_programs/ram12.mif"; --test program name
 		uROM_FILE : string := "microde.mif";
 		clk_speed : integer := 22); --delay clock lpm_counter width
 	port(
