@@ -1,0 +1,25 @@
+DEPTH = 256;
+WIDTH = 8;
+
+ADDRESS_RADIX = HEX;
+DATA_RADIX = HEX;
+
+CONTENT
+BEGIN
+
+-- start counting from F5, stop when at 00
+--
+-- 00: load F0 	A = 01
+-- 02: move 	A = 01
+-- 03: load FF 	A = F5
+-- 05: add 		A = F5 F6 F7 F8 F9 FA FB FC FD FE FF 00
+-- 06: testnz 	A = F5 F6 F7 F8 F9 FA FB FC FD FE FF 00
+-- 07: jumpz 05 A = F5 F6 F7 F8 F9 FA FB FC FD FE FF 00
+-- 09: halt
+--
+00: 20 F0 40 20 FF;
+05: 50 71 90 05 F0;
+F0: 01;
+FF: F5;
+
+END;

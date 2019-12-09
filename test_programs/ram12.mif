@@ -1,0 +1,26 @@
+DEPTH = 256;
+WIDTH = 8;
+
+ADDRESS_RADIX = HEX;
+DATA_RADIX = HEX;
+
+CONTENT
+BEGIN
+
+-- stack manipulation
+--
+-- 00: loadsp FF 	A = ?? SP = FF
+-- 02: load F0 	A = 44 SP = FF
+-- 04: push 		A = 44 SP = FE M[FE] = 44
+-- 05: load F1 	A = 77 SP = FE
+-- 07: push 		A = 77 SP = FD M[FD] = 77
+-- 08: load F2 	A = FF SP = FD
+-- 0A: peep 		A = 77 SP = FD
+-- 0B: load F2 	A = FF SP = FD
+-- 0D: pop 			A = 77 SP = FE
+-- 0E: peep 		A = 44 SP = FE
+--
+00: B0 FF 20 F0 D0 20 F1 D0 20 F2 C0 20 F2 E0 C0;
+F0: 44 77 FF;
+
+END;

@@ -1,0 +1,20 @@
+DEPTH = 256;
+WIDTH = 8;
+
+ADDRESS_RADIX = HEX;
+DATA_RADIX = HEX;
+
+CONTENT
+BEGIN
+
+-- 00: load F1 A = 12
+-- 02: load F2 A = 34
+-- 04: load F3 A = 56
+-- 06: halt
+--
+[0..FF] : 00;
+
+00: 20 F1 20 F2 20 F3 F0;
+F1: 12 34 56;
+
+END;
