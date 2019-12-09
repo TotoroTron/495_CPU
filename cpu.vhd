@@ -4,7 +4,8 @@ library lpm;
 use lpm.lpm_components.all;
 
 entity cpu is
-	generic(clk_speed : positive := 22);
+	generic(clk_speed : positive := 22;
+		uROM_file : string);
 	port(
 		clk : in std_logic;
 		M_q: in std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
@@ -50,7 +51,7 @@ begin
 		port map(clock => clk, cout => clk2);
 	
 	uSEQUENCER : exp7_useq
-		generic map(uROM_width => 30, uROM_file => "microde.hex")
+		generic map(uROM_width => 30, uROM_file => uROM_file)
 		port map(clock => clk, enable => clk2, clear => upc_clear, opcode => opcode, uop => uOP);
 		
 	REGISTER_FILE : reg_file

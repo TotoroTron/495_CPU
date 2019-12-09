@@ -5,8 +5,9 @@ use lpm.lpm_components.all;
 
 entity top_level is
 	generic(
-		RAM_FILE : string := "ram12.hex";
-		clk_speed : integer := 22);
+		RAM_FILE : string := "ram12.mif"; --test program name
+		uROM_FILE : string := "microde.mif";
+		clk_speed : integer := 22); --delay clock lpm_counter width
 	port(
 		clk_50mhz : in std_logic; --reference clock
 		hex_1 : out std_logic_vector(6 downto 0);
@@ -24,7 +25,8 @@ architecture structural of top_level is
 		);
 	end component;
 	component cpu is
-	  generic(clk_speed : integer);
+	  generic(clk_speed : integer;
+			uROM_FILE : string);
 		port(
 			clk : in std_logic;				--from clk-div.vhd
 			M_q: in std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
@@ -62,7 +64,8 @@ begin
 		);
 	
 	CPU_BLOCK: cpu
-		generic map(clk_speed => clk_speed)
+		generic map(clk_speed => clk_speed,
+			uROM_FILE => uROM_FILE)
 		port map(
 			clk => clk_50mhz, --clk_div.vhd
 			A_q => A_q,
