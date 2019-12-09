@@ -4,13 +4,14 @@ library lpm;
 use lpm.lpm_components.all;
 
 entity cpu is
+	generic(clk_speed : positive := 22);
 	port(
-		clk : in std_logic;				--from clk-div.vhd
+		clk : in std_logic;
 		M_q: in std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
 		A_q: out std_logic_vector(7 downto 0);		--from reg_FILE from lpm_ram_dq
 		M_addr: out std_logic_vector(7 downto 0);	--to reg_FILE to lpm_ram_dq
-		M_write: out std_logic;				--to reg_FILE to lpm_ram_dq
-		M_data: out std_logic_vector(7 downto 0);
+		M_write: out std_logic;							--to reg_FILE to lpm_ram_dq
+		M_data: out std_logic_vector(7 downto 0); --output of MAR
 		upc_clear : in std_logic
 	);
 end entity;
@@ -40,21 +41,13 @@ architecture dataflow of cpu is
 			M_write : out std_logic --to ram
 		);
 	end component;
-	component clk_div is
-		generic(period : integer);
-		port(clk_in : in std_logic; clk_out : out std_logic);
-	end component;
 	signal uOP : std_logic_vector(29 downto 9);
 	signal opcode : std_logic_vector(3 downto 0);
 	signal clk2: std_logic;
 begin
 
-	CLK_DELAY: lpm_counter generic map(lpm_width=>2) --22
+	CLK_DELAY: lpm_counter generic map(lpm_width=>clk_speed) --22
 		port map(clock => clk, cout => clk2);
-	
---	CLK_DELAY: clk_div
---		generic map(period => 4)
---		port map(clk_in => clk, clk_out => clk2);
 	
 	uSEQUENCER : exp7_useq
 		generic map(uROM_width => 30, uROM_file => "microde.hex")
