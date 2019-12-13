@@ -28,7 +28,7 @@ begin
 
 	UUT: top_level
 		GENERIC MAP(
-			RAM_FILE => "test_programs/ram1.hex",
+			RAM_FILE => "test_programs/ram12.hex",
 			uROM_FILE => "microde.hex",
 			clk_speed => 2)
 		PORT MAP(
@@ -53,4 +53,4 @@ begin
 		wait for clk_period/2;
    end process;
 	
-end architecture;
+end behavioral;

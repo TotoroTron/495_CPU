@@ -15,7 +15,7 @@ entity top_level is
 		upc_clear : in std_logic;
 		MARload : out std_logic
 	);
-end entity;
+end top_level;
 
 architecture structural of top_level is
 	component clk_div is
@@ -87,4 +87,4 @@ begin
 			hex_0 => hex_0
 		);
 		
-end architecture;
+end structural;

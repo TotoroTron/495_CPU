@@ -16,7 +16,7 @@ entity cpu is
 		upc_clear : in std_logic;
 		MARload : out std_logic
 	);
-end entity;
+end cpu;
 
 architecture dataflow of cpu is
 	component exp7_useq is
@@ -70,4 +70,4 @@ begin
 			MARload_out => MARload
 		);
 	
-end architecture;
+end dataflow;

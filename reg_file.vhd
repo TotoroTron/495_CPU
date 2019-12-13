@@ -16,7 +16,7 @@ entity reg_file is
 		M_write : out std_logic; --to ram
 		MARload_out : out std_logic
 	);
-end entity;
+end reg_file;
 
 architecture structural of reg_file is
 	component exp7_alu is
@@ -141,4 +141,4 @@ begin
 		generic map(lpm_width=>1)
 		port map(clock=>clk, enable=>ZLOAD, data=>Z_mux_out, q=>Z_q);
 	
-end architecture;
+end structural;
