@@ -48,25 +48,25 @@ architecture structural of reg_file is
 	signal V, VNOT : std_logic;
 begin
   
-  UOPS_TO_CONTROL_SIGNALS:
-    M_write 	<= uOps(28);
-    MARLOAD 	<= uOps(27) OR uOps(26) OR uOps(25);
-    MARSEL(0) 	<= uOps(27);
-    MARSEL(1) 	<= uOPs(26);
-    PCCNT 		<= uOPs(24);
-    PCLOAD 		<= uOPs(10) OR ( uOps(9) AND Z_q(0) ) ;
-    PCCLR 		<= uOPs(23);
-    DRLOAD 		<= uOPs(22) OR uOPs(21) ;
-    DRSEL(0) 	<= uOPs(21);
-    ALOAD 		<= uOps(20) OR uOps(19) OR uOps(18);
-    ASEL(0) 	<= uOps(20);
-    ALUSEL(0) 	<= uOps(18);
-    ZLOAD 		<= uOps(17) OR uOps(16) ;
-    SPLOAD 		<= uOps(15);
-    SPCNT 		<= uOps(14) OR uOps(13) ;
-    SPUD 		<= uOps(13);
-    RLOAD 		<= uOps(12);
-    IRLOAD 		<= uOps(11);
+	UOPS_TO_CONTROL_SIGNALS:
+		M_write 	<= uOps(28);
+		MARLOAD 	<= uOps(27) OR uOps(26) OR uOps(25);
+		MARSEL(0) 	<= uOps(27);
+		MARSEL(1) 	<= uOPs(26);
+		PCCNT 		<= uOPs(24);
+		PCLOAD 		<= uOPs(10) OR ( uOps(9) AND Z_q(0) ) ;
+		PCCLR 		<= uOPs(23);
+		DRLOAD 		<= uOPs(22) OR uOPs(21) ;
+		DRSEL(0) 	<= uOPs(21);
+		ALOAD 		<= uOps(20) OR uOps(19) OR uOps(18);
+		ASEL(0) 	<= uOps(20);
+		ALUSEL(0) 	<= uOps(18);
+		ZLOAD 		<= uOps(17) OR uOps(16) ;
+		SPLOAD 		<= uOps(15);
+		SPCNT 		<= uOps(14) OR uOps(13) ;
+		SPUD 		<= uOps(13);
+		RLOAD 		<= uOps(12);
+		IRLOAD 		<= uOps(11);
 
 	GEN_MUX_SIGNALS: for i in 0 to 7 generate
 		MAR_mux_data(0, i) <= SP_q(i);
