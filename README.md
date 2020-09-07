@@ -1,5 +1,8 @@
 # ECE495-LAB7-cpu
 
+Environment: Quartus II, Modelsim
+Hardware: Altera DE2 FPGA (Cyclone II 2C35, EP2C35F672C6)
+
 12/9/2019 : passed all 12 test programs in simulation and on FPGA
 
 Component Hierarchy:
