@@ -6,6 +6,14 @@ Hardware: Altera DE2 FPGA (Cyclone II 2C35, EP2C35F672C6)
 
 12/9/2019 : passed all 12 test programs in simulation and on FPGA
 
+Instruction Set: (refer to doc/instruction_set.pdf)
+RTL Instruction List: (refer to doc/rtl.pdf)
+Microsequencer Microcode: (refer to doc/microcode.pdf)
+
+Block Diagrams: https://imgur.com/a/GFWdIvJ
+
+Testbench Waveform of a POP instruction routine: https://imgur.com/a/PYgjili
+
 Component Hierarchy:
 
 TOP_LEVEL: top_level.vhd
