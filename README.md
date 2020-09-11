@@ -12,9 +12,9 @@ RTL Instruction List: (refer to doc/rtl.pdf)
 
 Microsequencer Microcode: (refer to doc/microcode.pdf)
 
-Block Diagrams: https://imgur.com/a/GFWdIvJ
+Block Diagrams: https://imgur.com/a/GFWdIvJ.png
 
-Testbench Waveform of a POP instruction routine: https://imgur.com/a/PYgjili
+Testbench Waveform of a POP instruction routine: https://i.imgur.com/m09x5u9.png
 
 Component Hierarchy:
 
